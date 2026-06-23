@@ -13,7 +13,8 @@
 </head>
 <body>
     
-    <nav>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <nav role="navigation">
          <div class="cube"><div></div>
 <div></div>
 <div></div>
@@ -22,12 +23,12 @@
 <div></div></div>
 <div class="nav-container">
            <div></div>
-            <button class="hamburger" aria-label="Toggle menu">
+            <button class="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <ul class="nav-menu">
+            <ul id="nav-menu" class="nav-menu">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#schedule">Schedule</a></li>
                 <li><a href="#participants">Participants</a></li>
@@ -35,22 +36,22 @@
             </ul>
         </div>
     </nav>
-    <header>        
+    <header>
         <section id="home">
-        <img class="main-logo" src="smr_logo_4.png" alt="SMR" width="200rem"></div>
+        <img class="main-logo" src="smr_logo_4.png" alt="SMR" loading="eager" fetchpriority="high" decoding="async">
         <h1 class="title">Shapes, Materials and Regularity</h1>
-        <h1>Lecce Encounters In Calculus Of Variations</h1>
-        <a href="https://forms.gle/AvCQgzEztFBeLbqt8" target="_blank" class="register-button">
+        <h2>Lecce Encounters In Calculus Of Variations</h2>
+        <a href="https://forms.gle/AvCQgzEztFBeLbqt8" target="_blank" rel="noopener noreferrer" class="register-button">
           <span class="shadow"></span>
           <span class="edge"></span>
           <div class="front">
             <span>Register now!</span>
           </div>
         </a>
-        <h1>30 Sep 2026 - 02 Oct 2026</h1>
+        <h3 class="event-date">30 Sep 2026 - 02 Oct 2026</h3>
     </section>
     </header>
-    <main>
+    <main id="main">
         <div class="background"></div>
         <section>
             <p>SMR:LEICOV is a series of three meetings to bring together young researchers and experts in the field of Calculus of Variations and Partial Differential Equations. We want to give value to the intersections between shape optimization, materials science and regularity theory.</p>
@@ -65,7 +66,7 @@
             <ul>
                 <li>Luciana Angiuli, Università del Salento, Italy</li> 
                  <li>Annika Bach, Eindhoven University of Technology, Holland  </li>
-                 <li>Elise Bonhomme, Université de Bretagne Occidentale, France</li>
+                 <li>Marianna Porfido, TU Bergakademie Freiberg, Germany</li>
                  <li>Dorin Bucur, Université de Savoie, France</li>
                  <li>Maicol Caponi, Università dell’Aquila, Italy</li>
                  <li>Filomena De Filippis, University of Salzburg, Austria</li>
@@ -78,20 +79,66 @@
                  <li>Carlo Nitsch, Università di Napoli “Federico II”, Italy</li>
                  <li>Filippo Riva, Charles University, Prague, Czech Republic  </li>
             </ul>
+            <h3>Scientific Committee</h3>
+            Luigi Negro, Francesco Solombrino
+            <h3>Organizing Committee</h3>
+            Paolo Acampora, Alessandro Carbotti, Simone  Cito  
         </section>
         <section id="places">
             <h2><div class="section-cube"><div></div><div></div><div></div><div></div><div></div><div></div></div>Places</h2>
-            <p>Informations about accomodation, eating and travels will be presented here.</p>
+
+            <h3>Venue</h3>
+            <address>
+                Museo Sigismondo Castromediano (Polo Biblio-Museale)<br>
+                Viale Gallipoli 28, 73100 Lecce (LE), Italy
+            </address>
+
+            <h3>How to reach Lecce</h3>
+            <dl>
+                <dt>By plane</dt>
+                <dd>
+                    <strong>Brindisi Airport (Aeroporto del Salento - BDS)</strong>
+                    <p>This is the closest airport, about 40 km north of Lecce.</p>
+                    <p>Shuttle bus: a direct service runs from Brindisi Airport to the Lecce City Terminal (Piazzale Carmelo Bene).</p>
+                    <p>Taxi / private transfer: available outside arrivals; drive time ≈ 30–35 minutes.</p>
+
+                    <strong>Bari Karol Wojtyła Airport (BRI)</strong>
+                    <p>Located about 165 km away. From Bari airport take a local train to Bari Centrale, then a direct train to Lecce (approx. 1h40m).</p>
+                </dd>
+
+                <dt>By train</dt>
+                <dd>
+                    <p>Lecce Railway Station (Stazione di Lecce) is connected to Italy's main rail network via Trenitalia, including Frecciarossa and Intercity services from Milan, Rome, Bologna, and Bari. The conference venue is approximately a 5-minute walk (≈400 m) from the station.</p>
+                </dd>
+            </dl>
+
+            <h3>Local transport</h3>
+            <p>
+                For local urban lines, bus routes, and parking information, plan your trip and purchase digital tickets via the official local public transport company website: <a href="https://www.sgmlecce.it" target="_blank" rel="noopener noreferrer">SGM Lecce Official Website</a>.
+            </p>
+
+            <h3>Accommodation & booking advice</h3>
+            <p>Because the Museo Castromediano is close to both the train station and the southwestern gate of the old town, consider these areas for your stay:</p>
+            <ul>
+                <li><strong>Historic Center (Centro Storico):</strong> Ideal to be within walking distance of Lecce’s Baroque architecture, restaurants, and sights.</li>
+                <li><strong>Station / Viale Gallipoli Area:</strong> Best for logistical convenience — just a few minutes' walk from the station and the venue.</li>
+            </ul>
+            <p><strong>Important:</strong> September is high season in Salento. Accommodation fills quickly; book hotels or B&Bs well in advance to secure better rates and availability.</p>
+
+            <h3>Social event</h3>
+            <p>
+                <strong>Social Dinner:</strong> The conference social dinner will take place on October 1st. It will feature a fixed-price menu showcasing traditional Salento cuisine. Details on menu options and reservations will be provided soon.
+            </p>
         </section>
     </main>
-    <footer>
+    <footer role="contentinfo">
         <p>We deeply thank our sponsors</p>
         <div class="logos">
-        <a href="https://www.altamatematica.it/" target="_blank" ><img src="https://www.altamatematica.it/workshopcft/wp-content/uploads/sites/3/2023/08/logo-indam.png" alt="Indam"></a>
-        <a href="https://www.unisalento.it/" target="_blank" ><img src="logo_unisalento.svg" alt="Università del Salento"></a>
-        <a href="https://www.chieselecce.it/polo-museale/" target="_blank"><img src="RPBM_Lecce_logo.jpg" alt="Polo biblio-museale di Lecce"></a>
-        <a href="https://www3.unimol.it/" target="_blank"><img src="unimol.png" alt="Università degli Studi del Molise"></a>
-        <a href="https://www.fondazionepuglia.it/" target="_blank"><img src="fondazione_puglia.png" alt="Fondazione Puglia"></a>
+        <a href="https://www.altamatematica.it/" target="_blank" rel="noopener noreferrer"><img src="https://www.altamatematica.it/workshopcft/wp-content/uploads/sites/3/2023/08/logo-indam.png" alt="Indam" loading="lazy" decoding="async"></a>
+        <a href="https://www.unisalento.it/" target="_blank" rel="noopener noreferrer"><img src="logo_unisalento.svg" alt="Università del Salento" loading="lazy" decoding="async"></a>
+        <a href="https://www.chieselecce.it/polo-museale/" target="_blank" rel="noopener noreferrer"><img src="RPBM_Lecce_logo.jpg" alt="Polo biblio-museale di Lecce" loading="lazy" decoding="async"></a>
+        <a href="https://www3.unimol.it/" target="_blank" rel="noopener noreferrer"><img src="unimol.png" alt="Università degli Studi del Molise" loading="lazy" decoding="async"></a>
+        <a href="https://www.fondazionepuglia.it/" target="_blank" rel="noopener noreferrer"><img src="fondazione_puglia.png" alt="Fondazione Puglia" loading="lazy" decoding="async"></a>
     </div>
     </footer>
     <script src="script.js"></script>

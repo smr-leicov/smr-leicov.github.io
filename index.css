@@ -3,12 +3,26 @@
   margin-top: 3.5rem;
   margin-bottom: 2rem;
 }
+:root {
+  --fs-base: 1rem;
+  --line-height: 1.7;
+  --scale-h1: 3.2rem;
+  --scale-h1-sub: 2.4rem;
+  --scale-h2: 2rem;
+  --scale-h3: 1.15rem;
+  --scale-h4: 1rem;
+  --measure: 75ch;
+  --muted-accent: rgba(103,182,206,0.22);
+}
+
 body {
   font-family: "Josefin Sans", sans-serif;
   background: linear-gradient(to right,  #1d5564, #1f5060);
-  color: white;
+  color: #e9f3f5;
   margin: 0;
   padding: 0;
+  font-size: var(--fs-base);
+  line-height: var(--line-height);
 }
 
 .background{
@@ -24,13 +38,15 @@ body {
   filter: blur(4px);
 }
 .main-logo {
-  height: 5.5rem;
-  object-fit: cover;
-  object-position: 0 50%;
+  height: 9rem;
+  object-fit: contain;
+  object-position: 50% 50%;
+  display: block;
+  margin: 0.5rem 0 1rem 0;
 }
 
 .title {
-  font-size: 5rem;
+  font-size: var(--scale-h1);
   padding: 1rem;
   margin-top: 0;
   margin-bottom: 0;
@@ -251,20 +267,50 @@ main {
   padding-top: 8rem;
 }
 
+/* Control measure for comfortable reading */
 section {
   padding: 20px;
-  max-width: 1200px;
+  max-width: var(--measure);
   margin: 0 auto;
   text-align: left;
+  font-size: var(--fs-base);
 }
 
 section h2 {
   font-family: "Righteous", cursive;
-  font-size: 2rem;
+  font-size: var(--scale-h2);
+  color: #dff7fb;
   display: flex;
   align-items: center;
   gap: 15px;
   padding-top: 5rem;
+  margin-top: 2.6rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  padding-bottom: 0.5rem;
+}
+
+/* Improved heading hierarchy for better readability */
+section h3 {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: var(--scale-h3);
+  color: #d7eef4;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.6rem;
+  padding-left: 0.8rem;
+  border-left: 4px solid #67b6ce;
+}
+
+section h4 {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: var(--scale-h4);
+  color: #bfdfe7;
+  font-weight: 500;
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+  padding-left: 0.6rem;
 }
 
 .section-cube {
@@ -324,10 +370,8 @@ section h2 {
   transform: rotateZ(15deg) rotateX(45deg) rotateY(10deg);
 }
 
-section {
-  font-size: 1.4rem;
-  line-height: 1.6;
-}
+/* Ensure readable default line-height */
+section { line-height: 1.6; }
 
 footer {
   text-align: center;
@@ -480,6 +524,14 @@ footer {
     gap: 10px;
   }
 
+  section h3 {
+    font-size: 1.05rem;
+  }
+
+  section h4 {
+    font-size: 0.95rem;
+  }
+
   .section-cube {
     width: 35px;
     height: 35px;
@@ -538,6 +590,14 @@ footer {
     margin-bottom: 1.5rem;
   }
 
+  section h3 {
+    font-size: 1.05rem;
+  }
+
+  section h4 {
+    font-size: 0.95rem;
+  }
+
   .section-cube {
     width: 30px;
     height: 30px;
@@ -566,3 +626,19 @@ footer {
   transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
  }
 } */
+
+/* Accessibility & image helpers */
+.skip-link { position: absolute; left: -999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+.skip-link:focus { left: 1rem; top: 1rem; width: auto; height: auto; background:#0f2b33; padding:8px; color:#fff; z-index:2000; border-radius:4px; }
+
+/* Focus-visible styles for keyboard users */
+:focus-visible { outline: 3px solid rgba(103,182,206,0.32); outline-offset: 3px; border-radius: 4px; }
+
+/* Responsive images and logo sizing */
+img { max-width: 100%; height: auto; display: block; }
+.main-logo { height: 9rem; width: auto; }
+.logos img { max-height: 4.5rem; width: auto; object-fit: contain; margin: 0 0.75rem; }
+
+/* Ensure nav menu shows/hides accessibly on mobile */
+.nav-menu { transition: max-height 0.28s ease; }
+
