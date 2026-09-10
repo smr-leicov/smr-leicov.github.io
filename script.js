@@ -112,3 +112,77 @@ window.addEventListener('scroll', updateActiveLink);
 
 if (currentActiveLink) { currentActiveLink.classList.add('active'); positionCube(currentActiveLink); }
 if (cube) cube.className = 'cube home';
+
+// --- Schedule day tabs ---
+const dayTabs = document.querySelectorAll('.day-tab');
+const dayPanels = document.querySelectorAll('.timeline');
+
+function selectDay(tab) {
+    dayTabs.forEach(t => {
+        const selected = t === tab;
+        t.classList.toggle('active', selected);
+        t.setAttribute('aria-selected', selected ? 'true' : 'false');
+        t.setAttribute('tabindex', selected ? '0' : '-1');
+    });
+    dayPanels.forEach(p => { p.hidden = p.id !== tab.getAttribute('aria-controls'); });
+}
+
+dayTabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => selectDay(tab));
+    tab.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            const next = dayTabs[(i + (e.key === 'ArrowRight' ? 1 : dayTabs.length - 1)) % dayTabs.length];
+            next.focus();
+            selectDay(next);
+        }
+    });
+});
+
+// --- Speaker abstract accordion ---
+function openAbstract(id) {
+    const panel = document.getElementById(id);
+    const toggle = document.getElementById('toggle-' + id.replace('abstract-', ''));
+    if (!panel || !toggle) return;
+    panel.hidden = false;
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.closest('.speaker-item').classList.add('open');
+}
+
+document.querySelectorAll('.speaker-toggle').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+        const panel = document.getElementById(toggle.getAttribute('aria-controls'));
+        if (!panel) return;
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        panel.hidden = expanded;
+        toggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        toggle.closest('.speaker-item').classList.toggle('open', !expanded);
+    });
+});
+
+// --- Jump from schedule to the matching abstract, opening it ---
+document.querySelectorAll('a.talk').forEach(talkLink => {
+    talkLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = talkLink.getAttribute('href').substring(1);
+        openAbstract(id);
+        const target = document.getElementById(id);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+});
+
+// Open the right abstract if the page is loaded/shared with a direct #abstract-xxx link
+if (location.hash && location.hash.startsWith('#abstract-')) {
+    openAbstract(location.hash.substring(1));
+}
+
+// --- Render math in abstracts (KaTeX) ---
+if (window.renderMathInElement) {
+    renderMathInElement(document.body, {
+        delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+        ],
+        throwOnError: false
+    });
+}
