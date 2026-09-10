@@ -705,6 +705,13 @@ img { max-width: 100%; height: auto; display: block; }
 .timeline-item.break .time { color: #9fc3cc; }
 
 a.event.talk {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  text-decoration: none;
+}
+
+.talk-title {
   color: #dff7fb;
   text-decoration: underline;
   text-decoration-color: rgba(103,182,206,0.6);
@@ -712,7 +719,12 @@ a.event.talk {
   transition: color 0.2s ease;
 }
 
-a.event.talk:hover { color: #67b6ce; }
+a.event.talk:hover .talk-title { color: #67b6ce; }
+
+.talk-speaker {
+  font-size: 0.85rem;
+  color: #9fc3cc;
+}
 
 /* --- Participants: abstract accordion --- */
 .accordion-hint {
@@ -720,6 +732,14 @@ a.event.talk:hover { color: #67b6ce; }
   opacity: 0.8;
   margin-bottom: 1.2rem;
 }
+
+.pdf-link {
+  color: #67b6ce;
+  font-weight: 600;
+  text-decoration-color: rgba(103,182,206,0.6);
+}
+
+.pdf-link:hover { color: #dff7fb; }
 
 .accordion { list-style: none; margin: 0; padding: 0; }
 
