@@ -703,6 +703,19 @@ img { max-width: 100%; height: auto; display: block; }
 
 .timeline-item.break .time { color: #95ccdd; }
 
+.timeline-item.break .event {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.break-icon {
+  width: 1.1em;
+  height: 1.1em;
+  flex-shrink: 0;
+  color: #95ccdd;
+}
+
 a.event.talk {
   display: flex;
   flex-direction: column;
