@@ -692,17 +692,16 @@ img { max-width: 100%; height: auto; display: block; }
   width: 3.5rem;
   font-family: "Righteous", cursive;
   font-size: 0.9rem;
-  color: #67b6ce;
+  color: #95ccdd;
 }
 
 .timeline-item .event { color: #e9f3f5; }
 
 .timeline-item.break {
-  opacity: 0.65;
   font-style: italic;
 }
 
-.timeline-item.break .time { color: #9fc3cc; }
+.timeline-item.break .time { color: #95ccdd; }
 
 a.event.talk {
   display: flex;
@@ -719,11 +718,11 @@ a.event.talk {
   transition: color 0.2s ease;
 }
 
-a.event.talk:hover .talk-title { color: #67b6ce; }
+a.event.talk:hover .talk-title { color: #95ccdd; }
 
 .talk-speaker {
   font-size: 0.85rem;
-  color: #9fc3cc;
+  color: #a9c9d1;
 }
 
 /* --- Participants: abstract accordion --- */
@@ -734,7 +733,7 @@ a.event.talk:hover .talk-title { color: #67b6ce; }
 }
 
 .pdf-link {
-  color: #67b6ce;
+  color: #95ccdd;
   font-weight: 600;
   text-decoration-color: rgba(103,182,206,0.6);
 }
@@ -772,7 +771,7 @@ a.event.talk:hover .talk-title { color: #67b6ce; }
   position: relative;
 }
 
-.speaker-toggle:hover .speaker-title { color: #67b6ce; }
+.speaker-toggle:hover .speaker-title { color: #95ccdd; }
 
 .speaker-title {
   font-weight: 600;
@@ -783,7 +782,7 @@ a.event.talk:hover .talk-title { color: #67b6ce; }
 
 .speaker-meta {
   font-size: 0.85rem;
-  color: #9fc3cc;
+  color: #a9c9d1;
 }
 
 .chevron {
