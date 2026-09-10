@@ -7,13 +7,16 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <link rel="shortcut icon" type="image/x-icon" href="smr_logo_4.png">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400&family=Righteous&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
     <link rel="stylesheet" href="index.css">
     <title>SMR: LEICOV</title>
 </head>
 <body>
     
-    <nav>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <nav role="navigation">
          <div class="cube"><div></div>
 <div></div>
 <div></div>
@@ -22,12 +25,12 @@
 <div></div></div>
 <div class="nav-container">
            <div></div>
-            <button class="hamburger" aria-label="Toggle menu">
+            <button class="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <ul class="nav-menu">
+            <ul id="nav-menu" class="nav-menu">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#schedule">Schedule</a></li>
                 <li><a href="#participants">Participants</a></li>
@@ -35,61 +38,322 @@
             </ul>
         </div>
     </nav>
-    <header>        
+    <header>
         <section id="home">
-        <img class="main-logo" src="smr_logo_4.png" alt="SMR" width="200rem"></div>
+        <img class="main-logo" src="smr_logo_4.png" alt="SMR" loading="eager" fetchpriority="high" decoding="async">
         <h1 class="title">Shapes, Materials and Regularity</h1>
-        <h1>Lecce Encounters In Calculus Of Variations</h1>
-        <a href="https://forms.gle/AvCQgzEztFBeLbqt8" target="_blank" class="register-button">
+        <h2>Lecce Encounters In Calculus Of Variations</h2>
+        <a href="https://forms.gle/AvCQgzEztFBeLbqt8" target="_blank" rel="noopener noreferrer" class="register-button">
           <span class="shadow"></span>
           <span class="edge"></span>
           <div class="front">
             <span>Register now!</span>
           </div>
         </a>
-        <h1>30 Sep 2026 - 02 Oct 2026</h1>
+        <h3 class="event-date">30 Sep 2026 - 02 Oct 2026</h3>
     </section>
     </header>
-    <main>
+    <main id="main">
         <div class="background"></div>
         <section>
             <p>SMR:LEICOV is a series of three meetings to bring together young researchers and experts in the field of Calculus of Variations and Partial Differential Equations. We want to give value to the intersections between shape optimization, materials science and regularity theory.</p>
             <h3>Questions? Contact us at <a href="mailto:smrleicov@gmail.com">smrleicov@gmail.com</a> </h3>
         <section id="schedule">
             <h2><div class="section-cube"><div></div><div></div><div></div><div></div><div></div><div></div></div>Schedule</h2>
-            <p>Details about the schedule will be provided here.</p>
+            <div class="day-tabs" role="tablist" aria-label="Conference days">
+                <button type="button" class="day-tab active" role="tab" aria-selected="true" aria-controls="day-30-09" id="tab-30-09">Wed 30 Sep</button>
+                <button type="button" class="day-tab" role="tab" aria-selected="false" aria-controls="day-01-10" id="tab-01-10" tabindex="-1">Thu 01 Oct</button>
+                <button type="button" class="day-tab" role="tab" aria-selected="false" aria-controls="day-02-10" id="tab-02-10" tabindex="-1">Fri 02 Oct</button>
+            </div>
+
+            <ol class="timeline" id="day-30-09" role="tabpanel" aria-labelledby="tab-30-09">
+                <li class="timeline-item"><span class="time">14:00</span><span class="event">Registration</span></li>
+                <li class="timeline-item"><span class="time">14:30</span><a class="event talk" href="#abstract-angiuli">Luciana Angiuli</a></li>
+                <li class="timeline-item"><span class="time">15:15</span><a class="event talk" href="#abstract-porfido">Marianna Porfido</a></li>
+                <li class="timeline-item"><span class="time">16:00</span><a class="event talk" href="#abstract-caponi">Maicol Caponi</a></li>
+            </ol>
+
+            <ol class="timeline" id="day-01-10" role="tabpanel" aria-labelledby="tab-01-10" hidden>
+                <li class="timeline-item"><span class="time">09:00</span><a class="event talk" href="#abstract-nastasi">Antonella Nastasi</a></li>
+                <li class="timeline-item"><span class="time">09:45</span><a class="event talk" href="#abstract-defilippis">Filomena De Filippis</a></li>
+                <li class="timeline-item break"><span class="time">10:30</span><span class="event">Coffee Break</span></li>
+                <li class="timeline-item"><span class="time">11:00</span><a class="event talk" href="#abstract-riva">Filippo Riva</a></li>
+                <li class="timeline-item"><span class="time">11:45</span><a class="event talk" href="#abstract-deluca">Lucia De Luca</a></li>
+                <li class="timeline-item break"><span class="time">12:30</span><span class="event">Lunch Break</span></li>
+                <li class="timeline-item"><span class="time">14:00</span><a class="event talk" href="#abstract-bach">Annika Bach</a></li>
+                <li class="timeline-item"><span class="time">14:45</span><a class="event talk" href="#abstract-friedrich">Manuel Friedrich</a></li>
+                <li class="timeline-item break"><span class="time">15:30</span><span class="event">Break</span></li>
+                <li class="timeline-item"><span class="time">16:00</span><a class="event talk" href="#abstract-lucardesi">Ilaria Lucardesi</a></li>
+                <li class="timeline-item"><span class="time">16:45</span><a class="event talk" href="#abstract-nitsch">Carlo Nitsch</a></li>
+            </ol>
+
+            <ol class="timeline" id="day-02-10" role="tabpanel" aria-labelledby="tab-02-10" hidden>
+                <li class="timeline-item"><span class="time">09:00</span><a class="event talk" href="#abstract-giacomini">Alessandro Giacomini</a></li>
+                <li class="timeline-item"><span class="time">09:45</span><a class="event talk" href="#abstract-ftouhi">Ilias Ftouhi</a></li>
+                <li class="timeline-item break"><span class="time">10:30</span><span class="event">Coffee Break</span></li>
+                <li class="timeline-item"><span class="time">11:00</span><a class="event talk" href="#abstract-bucur">Dorin Bucur</a></li>
+                <li class="timeline-item"><span class="time">11:45</span><span class="event">Brainstorming</span></li>
+                <li class="timeline-item"><span class="time">12:15</span><span class="event">Final comments</span></li>
+            </ol>
         </section>
         <section id="participants">
             <h2><div class="section-cube"><div></div><div></div><div></div><div></div><div></div><div></div></div>Participants</h2>
-            <ul>
-                <li>Luciana Angiuli, Università del Salento, Italy</li> 
-                 <li>Annika Bach, Eindhoven University of Technology, Holland  </li>
-                 <li>Elise Bonhomme, Université de Bretagne Occidentale, France</li>
-                 <li>Dorin Bucur, Université de Savoie, France</li>
-                 <li>Maicol Caponi, Università dell’Aquila, Italy</li>
-                 <li>Filomena De Filippis, University of Salzburg, Austria</li>
-                 <li>Lucia De Luca, CNR, Italy</li>
-                 <li>Manuel Friedrich, Johannes Kepler Universität, Linz, Austria</li>
-                 <li>Ilias Ftouhi, Université de Nîmes, France</li>
-                 <li>Alessandro Giacomini, Università di Brescia, Italy </li>
-                 <li>Ilaria Lucardesi, Università di Pisa, Italy </li>
-                 <li>Antonella Nastasi, Università di Palermo, Italy  </li>
-                 <li>Carlo Nitsch, Università di Napoli “Federico II”, Italy</li>
-                 <li>Filippo Riva, Charles University, Prague, Czech Republic  </li>
+            <h3>Speakers</h3>
+            <p class="accordion-hint">Click a talk to read its title and abstract. You can also jump here directly from the <a href="#schedule">schedule</a>.</p>
+            <ul class="accordion" id="accordion-speakers">
+
+                <li class="speaker-item">
+                    <h4 class="speaker-heading"><button type="button" class="speaker-toggle" id="toggle-angiuli" aria-expanded="false" aria-controls="abstract-angiuli">
+                        <span class="speaker-title">Hypercontractivity and asymptotic behaviour of generalised Mehler semigroups</span>
+                        <span class="speaker-meta">Luciana Angiuli · Università del Salento, Italy · Wed 30 Sep, 14:30</span>
+                        <span class="chevron" aria-hidden="true"></span>
+                    </button></h4>
+                    <div class="abstract-panel" id="abstract-angiuli" role="region" aria-labelledby="toggle-angiuli" hidden>
+                        <p>A natural $L^p$-setting for studying semigroups associated with elliptic operators with unbounded coefficients is the one related to invariant measures. This is the case, for instance, of the classical Ornstein–Uhlenbeck semigroup $(P(t))_{t \ge 0}$, which enjoys good properties in $L^p(\gamma)$, where $\gamma$ denotes the standard Gaussian measure that turns out to be the unique invariant measure associated with $(P(t))_{t \ge 0}$. One of the most relevant properties of the Ornstein–Uhlenbeck semigroup, proved by Nelson in 1973, is hypercontractivity: for any $1<p<q<\infty$ there exists $t_0=t_0(p,q)>0$ such that</p>
+                        <p>$$\|P(t)f\|_{L^q(\gamma)} \le \|f\|_{L^p(\gamma)}$$</p>
+                        <p>for all $f \in L^p(\gamma)$ and $t \ge t_0$. The hypercontractivity of $P(t)$ is strictly connected to the validity of the classical logarithmic Sobolev inequality with respect to the Gaussian measure and to the asymptotic behaviour of the semigroup $P(t)$ as $t \to +\infty$.</p>
+                        <p>The Ornstein–Uhlenbeck semigroup is the prototype for the class of generalised Mehler semigroups arising from linear stochastic differential equations perturbed by Lévy noise. For such semigroups, the hypercontractivity property fails to hold in general. In this talk we investigate the hypercontractivity property of generalised Mehler semigroups $(T(t))_{t \ge 0}$ on the $L^p$-scale with respect to an invariant measure $\mu$. When the associated invariant measure $\mu$ lacks a purely Gaussian structure, jump components may prevent the validity of Nelson's classical $L^p$-$L^q$ estimates. However, a summability-improving property can be obtained in the setting of mixed-norm spaces $\mathcal{X}_{p,q}(E;\gamma,\pi)$ related to the factorization of the invariant measure $\mu = \gamma * \pi$ into a Gaussian part $\gamma$ and an infinitely divisible non-Gaussian part $\pi$. As in the classical Gaussian case, some modified logarithmic Sobolev inequalities with respect to invariant measures can be inferred, as well as some results on the asymptotic behaviour of $T(t)$ as $t \to +\infty$.</p>
+                        <p class="joint">Joint work with Simone Ferrari and Diego Pallara.</p>
+                        <p class="contact"><a href="mailto:luciana.angiuli@unisalento.it">luciana.angiuli@unisalento.it</a></p>
+                    </div>
+                </li>
+
+                <li class="speaker-item">
+                    <h4 class="speaker-heading"><button type="button" class="speaker-toggle" id="toggle-bach" aria-expanded="false" aria-controls="abstract-bach">
+                        <span class="speaker-title">Monotonicity arguments for the multi-cell formula in stochastic homogenization</span>
+                        <span class="speaker-meta">Annika Bach · Eindhoven University of Technology, Holland · Thu 01 Oct, 14:00</span>
+                        <span class="chevron" aria-hidden="true"></span>
+                    </button></h4>
+                    <div class="abstract-panel" id="abstract-bach" role="region" aria-labelledby="toggle-bach" hidden>
+                        <p>Stochastic homogenization of integral functionals $F_\varepsilon$ via $\Gamma$-convergence can be seen as a rigorous mathematical averaging procedure, where highly oscillating random integrands are in the $\Gamma$-limit replaced by a homogeneous (suitably averaged) integrand. This limiting integrand is typically determined via a multi-cell formula, a limit of minimization problems where the integral functionals $F_\varepsilon$ are rescaled to larger and larger cubes and subjected to suitable boundary conditions. In many situations it is useful to replace those minimization problems by a family of auxiliary problems defined on a restricted but growing class of competitors, and to relate the two minimization problems via a monotonicity argument. In this talk we will present two such monotonicity arguments that we used to obtain fluctuation estimates for the multi-cell formula in the context of integral functionals defined on finite partitions and to obtain a stochastic homogenization result for integral functionals defined on manifold-valued Sobolev functions.</p>
+                        <p class="joint">Joint work with Matthias Ruf (Justus-Liebig-Universität Gießen).</p>
+                        <p class="contact"><a href="mailto:a.bach@tue.nl">a.bach@tue.nl</a></p>
+                    </div>
+                </li>
+
+                <li class="speaker-item">
+                    <h4 class="speaker-heading"><button type="button" class="speaker-toggle" id="toggle-bucur" aria-expanded="false" aria-controls="abstract-bucur">
+                        <span class="speaker-title">On a free boundary problem for the gradient magnitude of the torsion function</span>
+                        <span class="speaker-meta">Dorin Bucur · Université de Savoie, France · Fri 02 Oct, 11:00</span>
+                        <span class="chevron" aria-hidden="true"></span>
+                    </button></h4>
+                    <div class="abstract-panel" id="abstract-bucur" role="region" aria-labelledby="toggle-bucur" hidden>
+                        <p>A recent result by Burdzy, Ftouhi, and Mariano establishes a series of geometric properties of optimizers among convex sets for the maximum of the gradient of the torsion function. In this talk, I will discuss a related free boundary problem. We prove a general result concerning the presence of flat parts in the free boundary, together with an estimate of their Hausdorff measure. We will also discuss applications to shape optimization problems.</p>
+                        <p class="contact"><a href="mailto:dorin.bucur@univ-savoie.fr">dorin.bucur@univ-savoie.fr</a></p>
+                    </div>
+                </li>
+
+                <li class="speaker-item">
+                    <h4 class="speaker-heading"><button type="button" class="speaker-toggle" id="toggle-caponi" aria-expanded="false" aria-controls="abstract-caponi">
+                        <span class="speaker-title">$H$-convergence and $\Gamma$-convergence in the Riesz fractional setting: the nonlinear case</span>
+                        <span class="speaker-meta">Maicol Caponi · Università dell'Aquila, Italy · Wed 30 Sep, 16:00</span>
+                        <span class="chevron" aria-hidden="true"></span>
+                    </button></h4>
+                    <div class="abstract-panel" id="abstract-caponi" role="region" aria-labelledby="toggle-caponi" hidden>
+                        <p>This talk concerns the $H$-convergence of nonlinear nonlocal monotone operators defined through the Riesz fractional gradient and divergence. We show that the $H$-convergence in this nonlocal framework is equivalent to the $H$-convergence of the corresponding local one. As a consequence, we obtain a $H$-compactness result for a suitable class of nonlocal monotone operators. We then study the $\Gamma$-convergence of nonlocal energy functionals associated with the subclass of conservative monotone operators, proving that it is equivalent to the $\Gamma$-convergence of the corresponding local energies. A key ingredient is a new uniqueness result for the integral representation of both local and nonlocal functionals. As a by-product, we obtain the $\Gamma$-compactness of the class of nonlocal energies under consideration. Finally, we show the equivalence between the $H$-convergence of nonlocal conservative monotone operators and the $\Gamma$-convergence of the associated energy functionals.</p>
+                        <p class="joint">Joint work with G. C. Brusca (SISSA), A. Carbotti (Università del Salento), A. Maione (Politecnico di Milano) and F. Paronetto (Università di Padova).</p>
+                        <p class="contact"><a href="mailto:maicol.caponi@univaq.it">maicol.caponi@univaq.it</a></p>
+                    </div>
+                </li>
+
+                <li class="speaker-item">
+                    <h4 class="speaker-heading"><button type="button" class="speaker-toggle" id="toggle-defilippis" aria-expanded="false" aria-controls="abstract-defilippis">
+                        <span class="speaker-title">Intrinsic Schauder estimates at nearly linear growth</span>
+                        <span class="speaker-meta">Filomena De Filippis · University of Salzburg, Austria · Thu 01 Oct, 09:45</span>
+                        <span class="chevron" aria-hidden="true"></span>
+                    </button></h4>
+                    <div class="abstract-panel" id="abstract-defilippis" role="region" aria-labelledby="toggle-defilippis" hidden>
+                        <p>Variational integrals at nearly linear growth appear in the theory of plasticity with logarithmic hardening, that is the borderline configuration between plasticity with power hardening and perfect plasticity. The related (very challenging) regularity theory for minima has been intensively developed over the last 25 years, see e.g. the work of Frehse &amp; Seregin '99, Fuchs &amp; Mingione '00, Bildhauer '03, Beck &amp; Bulíček &amp; Gmeineder '20, Di Marco &amp; Marcellini '20, Gmeineder &amp; Kristensen '22, De Filippis &amp; Mingione '23.</p>
+                        <p>In this talk, we will discuss a nonlinear potential theoretic framework for Schauder estimates for vector valued solutions of a broad class of nonautonomous variational problems at nearly linear growth. Our approach naturally embraces the variable exponent as well as the Double and Multi phase setting, yielding new regularity results in basic models and recovering optimal regularity recently established in specific cases.</p>
+                        <p class="joint">Joint work with Cristiana De Filippis (Parma) and Peter Hästö (Helsinki).</p>
+                        <p class="contact"><a href="mailto:filomena.defilippis@plus.ac.at">filomena.defilippis@plus.ac.at</a></p>
+                    </div>
+                </li>
+
+                <li class="speaker-item">
+                    <h4 class="speaker-heading"><button type="button" class="speaker-toggle" id="toggle-deluca" aria-expanded="false" aria-controls="abstract-deluca">
+                        <span class="speaker-title">Asymptotic expansion of the relative $s$-fractional perimeter as $s$ tends to 0</span>
+                        <span class="speaker-meta">Lucia De Luca · CNR, Italy · Thu 01 Oct, 11:45</span>
+                        <span class="chevron" aria-hidden="true"></span>
+                    </button></h4>
+                    <div class="abstract-panel" id="abstract-deluca" role="region" aria-labelledby="toggle-deluca" hidden>
+                        <p>We prove a first-order $\Gamma$-convergence result (as $s$ tends to 0) for the $s$-fractional perimeter relative to a given bounded set and with prescribed exterior datum. We investigate the robustness of our approach under perturbations of the exterior datum and in presence of volume constraints. We then use the $\Gamma$-convergence expansion to study the asymptotic behavior of $s$-minimal sets as $s$ tends to 0.</p>
+                        <p class="joint">Joint work with G. Palatucci, M. Piccinini and M. Ponsiglione.</p>
+                        <p class="contact"><a href="mailto:l.deluca@iac.cnr.it">l.deluca@iac.cnr.it</a></p>
+                    </div>
+                </li>
+
+                <li class="speaker-item">
+                    <h4 class="speaker-heading"><button type="button" class="speaker-toggle" id="toggle-friedrich" aria-expanded="false" aria-controls="abstract-friedrich">
+                        <span class="speaker-title">Quasistatic evolution of cohesive-type fracture</span>
+                        <span class="speaker-meta">Manuel Friedrich · Johannes Kepler Universität, Linz, Austria · Thu 01 Oct, 14:45</span>
+                        <span class="chevron" aria-hidden="true"></span>
+                    </button></h4>
+                    <div class="abstract-panel" id="abstract-friedrich" role="region" aria-labelledby="toggle-friedrich" hidden>
+                        <p>In this talk, I present an existence result for a variational model of quasi-static crack growth for a class of cohesive fracture energies with an activation threshold. The evolution is characterized by an irreversibility condition in terms of a maximal opening variable, a global stability, and an energy balance.</p>
+                        <p class="joint">Joint work with Vito Crismale.</p>
+                        <p class="contact"><a href="mailto:manuel.friedrich@jku.at">manuel.friedrich@jku.at</a></p>
+                    </div>
+                </li>
+
+                <li class="speaker-item">
+                    <h4 class="speaker-heading"><button type="button" class="speaker-toggle" id="toggle-ftouhi" aria-expanded="false" aria-controls="abstract-ftouhi">
+                        <span class="speaker-title">About the maximization of the gradient of the torsion function</span>
+                        <span class="speaker-meta">Ilias Ftouhi · Université de Nîmes, France · Fri 02 Oct, 09:45</span>
+                        <span class="chevron" aria-hidden="true"></span>
+                    </button></h4>
+                    <div class="abstract-panel" id="abstract-ftouhi" role="region" aria-labelledby="toggle-ftouhi" hidden>
+                        <p>In this talk, we address the problem of maximizing the supremum norm of the gradient of the torsion function over planar convex domains with fixed measure (or perimeter). We prove that an optimal shape exists, its boundary possesses $C^1$ regularity, and it features at least one straight segment. The proofs leverage probabilistic methods along with a novel formulation of the boundary Harnack principle for the torsion function.</p>
+                        <p class="joint">Joint work with Krzysztof Burdzy (University of Washington) and Phanuel Mariano (Union College).</p>
+                        <p class="contact"><a href="mailto:ilias.ftouhi@unimes.fr">ilias.ftouhi@unimes.fr</a></p>
+                    </div>
+                </li>
+
+                <li class="speaker-item">
+                    <h4 class="speaker-heading"><button type="button" class="speaker-toggle" id="toggle-giacomini" aria-expanded="false" aria-controls="abstract-giacomini">
+                        <span class="speaker-title">Periodic homogenization in scalar Hencky plasticity</span>
+                        <span class="speaker-meta">Alessandro Giacomini · Università di Brescia, Italy · Fri 02 Oct, 09:00</span>
+                        <span class="chevron" aria-hidden="true"></span>
+                    </button></h4>
+                    <div class="abstract-panel" id="abstract-giacomini" role="region" aria-labelledby="toggle-giacomini" hidden>
+                        <p>In this talk I will deal with periodic homogenization for a two-phase elasto-plastic material in the framework of $\Gamma$-convergence under two-scale convergence. The elasto-plastic character of the homogenized problem is unclear, and will be discussed by resorting to a one field description of the associated energy. A positive answer will be given in one dimension.</p>
+                        <p class="joint">Joint work with G. Francfort.</p>
+                        <p class="contact"><a href="mailto:alessandro.giacomini@unibs.it">alessandro.giacomini@unibs.it</a></p>
+                    </div>
+                </li>
+
+                <li class="speaker-item">
+                    <h4 class="speaker-heading"><button type="button" class="speaker-toggle" id="toggle-lucardesi" aria-expanded="false" aria-controls="abstract-lucardesi">
+                        <span class="speaker-title">On the shape optimization of the torsional rigidity under thickness constraint among triangles</span>
+                        <span class="speaker-meta">Ilaria Lucardesi · Università di Pisa, Italy · Thu 01 Oct, 16:00</span>
+                        <span class="chevron" aria-hidden="true"></span>
+                    </button></h4>
+                    <div class="abstract-panel" id="abstract-lucardesi" role="region" aria-labelledby="toggle-lucardesi" hidden>
+                        <p>In this talk I will present some recent results about the optimization, both minimization and maximization, of a shape functional which depends on the torsional rigidity and the thickness, in the class of triangles. Besides the detection of optimal triangles, the study allows to obtain new geometric estimates on the torsional rigidity for triangles.</p>
+                        <p class="joint">Joint work with Davide Zucco (Università di Torino).</p>
+                        <p class="contact"><a href="mailto:ilaria.lucardesi@unipi.it">ilaria.lucardesi@unipi.it</a></p>
+                    </div>
+                </li>
+
+                <li class="speaker-item">
+                    <h4 class="speaker-heading"><button type="button" class="speaker-toggle" id="toggle-nastasi" aria-expanded="false" aria-controls="abstract-nastasi">
+                        <span class="speaker-title">Local boundedness of solutions of general growth partial differential systems in divergence form</span>
+                        <span class="speaker-meta">Antonella Nastasi · Università di Palermo, Italy · Thu 01 Oct, 09:00</span>
+                        <span class="chevron" aria-hidden="true"></span>
+                    </button></h4>
+                    <div class="abstract-panel" id="abstract-nastasi" role="region" aria-labelledby="toggle-nastasi" hidden>
+                        <p>We present local boundedness result for solutions of partial differential systems in divergence form. The systems under consideration include the first variations of functionals depending on the space variable and having nonstandard growth with respect to the gradient, like for instance the model with growth depending on the point, but without assuming the usual $\Delta_2$ condition.</p>
+                        <p class="joint">Joint project with Elvira Mascolo (University of Florence) and Cintia Pacchiano Camacho (Universidad Nacional Autónoma de México).</p>
+                        <p class="contact"><a href="mailto:antonella.nastasi@unipa.it">antonella.nastasi@unipa.it</a></p>
+                    </div>
+                </li>
+
+                <li class="speaker-item">
+                    <h4 class="speaker-heading"><button type="button" class="speaker-toggle" id="toggle-nitsch" aria-expanded="false" aria-controls="abstract-nitsch">
+                        <span class="speaker-title">Improving a Spectral Inequality by Payne</span>
+                        <span class="speaker-meta">Carlo Nitsch · Università di Napoli “Federico II”, Italy · Thu 01 Oct, 16:45</span>
+                        <span class="chevron" aria-hidden="true"></span>
+                    </button></h4>
+                    <div class="abstract-panel" id="abstract-nitsch" role="region" aria-labelledby="toggle-nitsch" hidden>
+                        <p>A celebrated inequality by Payne relates the first eigenvalue of the Dirichlet Laplacian to the first eigenvalue of the buckling problem. Motivated by the goal of establishing a quantitative version of this inequality, we show that Payne's original estimate — which is not sharp — can in fact be improved. Our result provides a refined spectral bound and opens the way to further investigations into quantitative enhancements of classical inequalities in spectral theory.</p>
+                        <p class="contact"><a href="mailto:c.nitsch@unina.it">c.nitsch@unina.it</a></p>
+                    </div>
+                </li>
+
+                <li class="speaker-item">
+                    <h4 class="speaker-heading"><button type="button" class="speaker-toggle" id="toggle-porfido" aria-expanded="false" aria-controls="abstract-porfido">
+                        <span class="speaker-title">The Free Lunch Theorem of homogenisation</span>
+                        <span class="speaker-meta">Marianna Porfido · TU Bergakademie Freiberg, Germany · Wed 30 Sep, 15:15</span>
+                        <span class="chevron" aria-hidden="true"></span>
+                    </button></h4>
+                    <div class="abstract-panel" id="abstract-porfido" role="region" aria-labelledby="toggle-porfido" hidden>
+                        <p>In this talk, we revisit the classical elliptic homogenisation theory for local coefficients, i.e., $L_\infty$-multiplication operators (H-convergence as envisioned by Murat and Tartar in the 1970's). Then, we compare it with an abstract operator-theory approach that allows for nonlocal coefficients, i.e., general bounded operators (nonlocal H-convergence introduced in [1]). With these concepts in hand, we show that H-convergence for multiplication type operators always implies nonlocal H-convergence. As a consequence, H-convergence for multiplication operators in divergence form problems will always imply H-type convergence for a different variational problem for free.</p>
+                        <p class="joint">Joint work with Andreas Buchinger and Marcus Waurick.</p>
+                        <p class="references"><strong>References</strong><br>
+                        [1] M. Waurick, <em>Nonlocal H-Convergence</em>, Calc. Var. Partial Differential Equations 57(6) (2018).<br>
+                        [2] A. Buchinger, M. Porfido, M. Waurick, <em>The Free Lunch Theorem of Homogenisation</em>, preprint (2026), doi: <a href="https://arxiv.org/abs/2606.04498" target="_blank" rel="noopener noreferrer">arXiv:2606.04498</a>.</p>
+                        <p class="contact"><a href="mailto:Marianna.Porfido@math.tu-freiberg.de">Marianna.Porfido@math.tu-freiberg.de</a></p>
+                    </div>
+                </li>
+
+                <li class="speaker-item">
+                    <h4 class="speaker-heading"><button type="button" class="speaker-toggle" id="toggle-riva" aria-expanded="false" aria-controls="abstract-riva">
+                        <span class="speaker-title">A free boundary approach to quasistatic debonding</span>
+                        <span class="speaker-meta">Filippo Riva · Charles University, Prague, Czech Republic · Thu 01 Oct, 11:00</span>
+                        <span class="chevron" aria-hidden="true"></span>
+                    </button></h4>
+                    <div class="abstract-panel" id="abstract-riva" role="region" aria-labelledby="toggle-riva" hidden>
+                        <p>Debonding models describe the evolution of an adhesive elastic membrane peeled away from a planar rigid substrate. When the process is sufficiently slow, inertial and viscous effects can be neglected, leading to a quasistatic setting. In this framework, debonding can be formulated as a variational evolution of sets. In the talk, I will present how to prove existence of so-called energetic solutions for this formulation — based on global minimizers of a suitable functional together with an energy balance — by exploiting an equivalent rewriting of the model in terms of the celebrated one-phase Bernoulli free boundary problem.</p>
+                        <p class="joint">Joint work with E. Maggiorelli and E. Tolotti.</p>
+                        <p class="contact"><a href="mailto:filippo.riva@matfyz.cuni.cz">filippo.riva@matfyz.cuni.cz</a></p>
+                    </div>
+                </li>
+
             </ul>
+            <h3>Scientific Committee</h3>
+            Luigi Negro, Francesco Solombrino
+            <h3>Organizing Committee</h3>
+            Paolo Acampora, Alessandro Carbotti, Simone  Cito  
         </section>
         <section id="places">
             <h2><div class="section-cube"><div></div><div></div><div></div><div></div><div></div><div></div></div>Places</h2>
-            <p>Informations about accomodation, eating and travels will be presented here.</p>
+
+            <h3>Venue</h3>
+            <address>
+                Museo Sigismondo Castromediano (Polo Biblio-Museale)<br>
+                Viale Gallipoli 28, 73100 Lecce (LE), Italy
+            </address>
+
+            <h3>How to reach Lecce</h3>
+            <dl>
+                <dt>By plane</dt>
+                <dd>
+                    <strong>Brindisi Airport (Aeroporto del Salento - BDS)</strong>
+                    <p>This is the closest airport, about 40 km north of Lecce.</p>
+                    <p>Shuttle bus: a direct service runs from Brindisi Airport to the Lecce City Terminal (Piazzale Carmelo Bene).</p>
+                    <p>Taxi / private transfer: available outside arrivals; drive time ≈ 30–35 minutes.</p>
+
+                    <strong>Bari Karol Wojtyła Airport (BRI)</strong>
+                    <p>Located about 165 km away. From Bari airport take a local train to Bari Centrale, then a direct train to Lecce (approx. 1h40m).</p>
+                </dd>
+
+                <dt>By train</dt>
+                <dd>
+                    <p>Lecce Railway Station (Stazione di Lecce) is connected to Italy's main rail network via Trenitalia, including Frecciarossa and Intercity services from Milan, Rome, Bologna, and Bari. The conference venue is approximately a 5-minute walk (≈400 m) from the station.</p>
+                </dd>
+            </dl>
+
+            <h3>Local transport</h3>
+            <p>
+                For local urban lines, bus routes, and parking information, plan your trip and purchase digital tickets via the official local public transport company website: <a href="https://www.sgmlecce.it" target="_blank" rel="noopener noreferrer">SGM Lecce Official Website</a>.
+            </p>
+
+            <h3>Accommodation & booking advice</h3>
+            <p>Because the Museo Castromediano is close to both the train station and the southwestern gate of the old town, consider these areas for your stay:</p>
+            <ul>
+                <li><strong>Historic Center (Centro Storico):</strong> Ideal to be within walking distance of Lecce’s Baroque architecture, restaurants, and sights.</li>
+                <li><strong>Station / Viale Gallipoli Area:</strong> Best for logistical convenience — just a few minutes' walk from the station and the venue.</li>
+            </ul>
+            <p><strong>Important:</strong> September is high season in Salento. Accommodation fills quickly; book hotels or B&Bs well in advance to secure better rates and availability.</p>
+
+            <h3>Social event</h3>
+            <p>
+                <strong>Social Dinner:</strong> The conference social dinner will take place on October 1st. It will feature a fixed-price menu showcasing traditional Salento cuisine. Details on menu options and reservations will be provided soon.
+            </p>
         </section>
     </main>
-    <footer>
+    <footer role="contentinfo">
         <p>We deeply thank our sponsors</p>
         <div class="logos">
-        <a href="https://www.altamatematica.it/" target="_blank" ><img src="https://www.altamatematica.it/workshopcft/wp-content/uploads/sites/3/2023/08/logo-indam.png" alt="Indam"></a>
-        <a href="https://www.unisalento.it/" target="_blank" ><img src="logo_unisalento.svg" alt="Università del Salento"></a>
-        </div>
+        <a href="https://www.altamatematica.it/" target="_blank" rel="noopener noreferrer"><img src="https://www.altamatematica.it/workshopcft/wp-content/uploads/sites/3/2023/08/logo-indam.png" alt="Indam" loading="lazy" decoding="async"></a>
+        <a href="https://www.unisalento.it/" target="_blank" rel="noopener noreferrer"><img src="logo_unisalento.svg" alt="Università del Salento" loading="lazy" decoding="async"></a>
+        <a href="https://www.chieselecce.it/polo-museale/" target="_blank" rel="noopener noreferrer"><img src="RPBM_Lecce_logo.jpg" alt="Polo biblio-museale di Lecce" loading="lazy" decoding="async"></a>
+        <a href="https://www3.unimol.it/" target="_blank" rel="noopener noreferrer"><img src="unimol.png" alt="Università degli Studi del Molise" loading="lazy" decoding="async"></a>
+        <a href="https://www.fondazionepuglia.it/" target="_blank" rel="noopener noreferrer"><img src="fondazione_puglia.png" alt="Fondazione Puglia" loading="lazy" decoding="async"></a>
+    </div>
     </footer>
-    <script src="script.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <script defer src="script.js"></script>
 </body>
 </html>
