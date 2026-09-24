@@ -1,5 +1,5 @@
 {
-  "_readme": "Edit this file to change the schedule or the speakers/abstracts shown on the site. No HTML knowledge needed. 'days' controls the Schedule section; 'speakers' controls the Participants accordion. Each schedule row is either a talk ({\"time\", \"speaker\": \"<speaker id>\"}) or a non-talk row ({\"time\", \"label\", \"icon\" (optional: registration/coffee/lunch/clock), \"muted\" (optional true/false)}). Math in title/abstract/joint can use $...$ (inline) or $$...$$ (display), same as in the LaTeX source. Use null for anything not known yet ('to be announced').",
+  "_readme": "Edit this file to change the schedule or the speakers/abstracts shown on the site. No HTML knowledge needed. 'days' controls the Schedule section; 'speakers' controls the Participants accordion. Each schedule row is either a talk ({\"time\", \"speaker\": \"<speaker id>\"}) or a non-talk row ({\"time\", \"label\", \"icon\" (optional: registration/coffee/lunch/clock), \"muted\" (optional true/false)}). Math in title/abstract/joint can use $...$ (inline) or $$...$$ (display), same as in the LaTeX source. Use null for anything not known yet ('to be announced'). After editing, run `python generate_booklet.py --pdf` to regenerate TitlesAbstractSMRLEICOV.tex and SMR-LEICOV_abstracts.pdf from this file (needs pdflatex on PATH).",
 
   "days": [
     {
