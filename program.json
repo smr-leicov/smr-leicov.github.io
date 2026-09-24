@@ -1,0 +1,221 @@
+{
+  "_readme": "Edit this file to change the schedule or the speakers/abstracts shown on the site. No HTML knowledge needed. 'days' controls the Schedule section; 'speakers' controls the Participants accordion. Each schedule row is either a talk ({\"time\", \"speaker\": \"<speaker id>\"}) or a non-talk row ({\"time\", \"label\", \"icon\" (optional: registration/coffee/lunch/clock), \"muted\" (optional true/false)}). Math in title/abstract/joint can use $...$ (inline) or $$...$$ (display), same as in the LaTeX source. Use null for anything not known yet ('to be announced').",
+
+  "days": [
+    {
+      "id": "day-30-09",
+      "label": "Wed 30 Sep",
+      "schedule": [
+        { "time": "14:00", "label": "Registration", "icon": "registration" },
+        { "time": "14:30", "speaker": "angiuli" },
+        { "time": "15:15", "speaker": "porfido" },
+        { "time": "16:00", "speaker": "caponi" }
+      ]
+    },
+    {
+      "id": "day-01-10",
+      "label": "Thu 01 Oct",
+      "schedule": [
+        { "time": "09:00", "speaker": "paoli" },
+        { "time": "09:45", "speaker": "defilippis" },
+        { "time": "10:30", "label": "Coffee Break", "icon": "coffee", "muted": true },
+        { "time": "11:00", "speaker": "riva" },
+        { "time": "11:45", "speaker": "deluca" },
+        { "time": "12:30", "label": "Lunch Break", "icon": "lunch", "muted": true },
+        { "time": "14:00", "speaker": "bach" },
+        { "time": "14:45", "speaker": "friedrich" },
+        { "time": "15:30", "label": "Break", "icon": "clock", "muted": true },
+        { "time": "16:00", "speaker": "lucardesi" },
+        { "time": "16:45", "speaker": "nitsch" }
+      ]
+    },
+    {
+      "id": "day-02-10",
+      "label": "Fri 02 Oct",
+      "schedule": [
+        { "time": "09:00", "speaker": "giacomini" },
+        { "time": "09:45", "speaker": "ftouhi" },
+        { "time": "10:30", "label": "Coffee Break", "icon": "coffee", "muted": true },
+        { "time": "11:00", "speaker": "bucur" },
+        { "time": "11:45", "label": "Brainstorming" },
+        { "time": "12:15", "label": "Final comments" }
+      ]
+    }
+  ],
+
+  "speakers": [
+    {
+      "id": "angiuli",
+      "name": "Luciana Angiuli",
+      "affiliation": "Università del Salento, Italy",
+      "email": "luciana.angiuli@unisalento.it",
+      "title": "Hypercontractivity and asymptotic behaviour of generalised Mehler semigroups",
+      "abstract": [
+        "A natural $L^p$-setting for studying semigroups associated with elliptic operators with unbounded coefficients is the one related to invariant measures. This is the case, for instance, of the classical Ornstein–Uhlenbeck semigroup $(P(t))_{t \\ge 0}$, which enjoys good properties in $L^p(\\gamma)$, where $\\gamma$ denotes the standard Gaussian measure that turns out to be the unique invariant measure associated with $(P(t))_{t \\ge 0}$. One of the most relevant properties of the Ornstein–Uhlenbeck semigroup, proved by Nelson in 1973, is hypercontractivity: for any $1<p<q<\\infty$ there exists $t_0=t_0(p,q)>0$ such that",
+        "$$\\|P(t)f\\|_{L^q(\\gamma)} \\le \\|f\\|_{L^p(\\gamma)}$$",
+        "for all $f \\in L^p(\\gamma)$ and $t \\ge t_0$. The hypercontractivity of $P(t)$ is strictly connected to the validity of the classical logarithmic Sobolev inequality with respect to the Gaussian measure and to the asymptotic behaviour of the semigroup $P(t)$ as $t \\to +\\infty$.",
+        "The Ornstein–Uhlenbeck semigroup is the prototype for the class of generalised Mehler semigroups arising from linear stochastic differential equations perturbed by Lévy noise. For such semigroups, the hypercontractivity property fails to hold in general. In this talk we investigate the hypercontractivity property of generalised Mehler semigroups $(T(t))_{t \\ge 0}$ on the $L^p$-scale with respect to an invariant measure $\\mu$. When the associated invariant measure $\\mu$ lacks a purely Gaussian structure, jump components may prevent the validity of Nelson's classical $L^p$-$L^q$ estimates. However, a summability-improving property can be obtained in the setting of mixed-norm spaces $\\mathcal{X}_{p,q}(E;\\gamma,\\pi)$ related to the factorization of the invariant measure $\\mu = \\gamma * \\pi$ into a Gaussian part $\\gamma$ and an infinitely divisible non-Gaussian part $\\pi$. As in the classical Gaussian case, some modified logarithmic Sobolev inequalities with respect to invariant measures can be inferred, as well as some results on the asymptotic behaviour of $T(t)$ as $t \\to +\\infty$."
+      ],
+      "joint": "Joint work with Simone Ferrari and Diego Pallara.",
+      "references": null
+    },
+    {
+      "id": "bach",
+      "name": "Annika Bach",
+      "affiliation": "Eindhoven University of Technology, Holland",
+      "email": "a.bach@tue.nl",
+      "title": "Monotonicity arguments for the multi-cell formula in stochastic homogenization",
+      "abstract": [
+        "Stochastic homogenization of integral functionals $F_\\varepsilon$ via $\\Gamma$-convergence can be seen as a rigorous mathematical averaging procedure, where highly oscillating random integrands are in the $\\Gamma$-limit replaced by a homogeneous (suitably averaged) integrand. This limiting integrand is typically determined via a multi-cell formula, a limit of minimization problems where the integral functionals $F_\\varepsilon$ are rescaled to larger and larger cubes and subjected to suitable boundary conditions. In many situations it is useful to replace those minimization problems by a family of auxiliary problems defined on a restricted but growing class of competitors, and to relate the two minimization problems via a monotonicity argument. In this talk we will present two such monotonicity arguments that we used to obtain fluctuation estimates for the multi-cell formula in the context of integral functionals defined on finite partitions and to obtain a stochastic homogenization result for integral functionals defined on manifold-valued Sobolev functions."
+      ],
+      "joint": "Joint work with Matthias Ruf (Justus-Liebig-Universität Gießen).",
+      "references": null
+    },
+    {
+      "id": "bucur",
+      "name": "Dorin Bucur",
+      "affiliation": "Université de Savoie, France",
+      "email": "dorin.bucur@univ-savoie.fr",
+      "title": "On a free boundary problem for the gradient magnitude of the torsion function",
+      "abstract": [
+        "A recent result by Burdzy, Ftouhi, and Mariano establishes a series of geometric properties of optimizers among convex sets for the maximum of the gradient of the torsion function. In this talk, I will discuss a related free boundary problem. We prove a general result concerning the presence of flat parts in the free boundary, together with an estimate of their Hausdorff measure. We will also discuss applications to shape optimization problems."
+      ],
+      "joint": null,
+      "references": null
+    },
+    {
+      "id": "caponi",
+      "name": "Maicol Caponi",
+      "affiliation": "Università dell'Aquila, Italy",
+      "email": "maicol.caponi@univaq.it",
+      "title": "$H$-convergence and $\\Gamma$-convergence in the Riesz fractional setting: the nonlinear case",
+      "abstract": [
+        "This talk concerns the $H$-convergence of nonlinear nonlocal monotone operators defined through the Riesz fractional gradient and divergence. We show that the $H$-convergence in this nonlocal framework is equivalent to the $H$-convergence of the corresponding local one. As a consequence, we obtain a $H$-compactness result for a suitable class of nonlocal monotone operators. We then study the $\\Gamma$-convergence of nonlocal energy functionals associated with the subclass of conservative monotone operators, proving that it is equivalent to the $\\Gamma$-convergence of the corresponding local energies. A key ingredient is a new uniqueness result for the integral representation of both local and nonlocal functionals. As a by-product, we obtain the $\\Gamma$-compactness of the class of nonlocal energies under consideration. Finally, we show the equivalence between the $H$-convergence of nonlocal conservative monotone operators and the $\\Gamma$-convergence of the associated energy functionals."
+      ],
+      "joint": "Joint work with G. C. Brusca (SISSA), A. Carbotti (Università del Salento), A. Maione (Politecnico di Milano) and F. Paronetto (Università di Padova).",
+      "references": null
+    },
+    {
+      "id": "defilippis",
+      "name": "Filomena De Filippis",
+      "affiliation": "University of Salzburg, Austria",
+      "email": "filomena.defilippis@plus.ac.at",
+      "title": "Intrinsic Schauder estimates at nearly linear growth",
+      "abstract": [
+        "Variational integrals at nearly linear growth appear in the theory of plasticity with logarithmic hardening, that is the borderline configuration between plasticity with power hardening and perfect plasticity. The related (very challenging) regularity theory for minima has been intensively developed over the last 25 years, see e.g. the work of Frehse & Seregin '99, Fuchs & Mingione '00, Bildhauer '03, Beck & Bulíček & Gmeineder '20, Di Marco & Marcellini '20, Gmeineder & Kristensen '22, De Filippis & Mingione '23.",
+        "In this talk, we will discuss a nonlinear potential theoretic framework for Schauder estimates for vector valued solutions of a broad class of nonautonomous variational problems at nearly linear growth. Our approach naturally embraces the variable exponent as well as the Double and Multi phase setting, yielding new regularity results in basic models and recovering optimal regularity recently established in specific cases."
+      ],
+      "joint": "Joint work with Cristiana De Filippis (Parma) and Peter Hästö (Helsinki).",
+      "references": null
+    },
+    {
+      "id": "deluca",
+      "name": "Lucia De Luca",
+      "affiliation": "CNR, Italy",
+      "email": "l.deluca@iac.cnr.it",
+      "title": "Asymptotic expansion of the relative $s$-fractional perimeter as $s$ tends to 0",
+      "abstract": [
+        "We prove a first-order $\\Gamma$-convergence result (as $s$ tends to 0) for the $s$-fractional perimeter relative to a given bounded set and with prescribed exterior datum. We investigate the robustness of our approach under perturbations of the exterior datum and in presence of volume constraints. We then use the $\\Gamma$-convergence expansion to study the asymptotic behavior of $s$-minimal sets as $s$ tends to 0."
+      ],
+      "joint": "Joint work with G. Palatucci, M. Piccinini and M. Ponsiglione.",
+      "references": null
+    },
+    {
+      "id": "friedrich",
+      "name": "Manuel Friedrich",
+      "affiliation": "Johannes Kepler Universität, Linz, Austria",
+      "email": "manuel.friedrich@jku.at",
+      "title": "Quasistatic evolution of cohesive-type fracture",
+      "abstract": [
+        "In this talk, I present an existence result for a variational model of quasi-static crack growth for a class of cohesive fracture energies with an activation threshold. The evolution is characterized by an irreversibility condition in terms of a maximal opening variable, a global stability, and an energy balance."
+      ],
+      "joint": "Joint work with Vito Crismale.",
+      "references": null
+    },
+    {
+      "id": "ftouhi",
+      "name": "Ilias Ftouhi",
+      "affiliation": "Université de Nîmes, France",
+      "email": "ilias.ftouhi@unimes.fr",
+      "title": "About the maximization of the gradient of the torsion function",
+      "abstract": [
+        "In this talk, we address the problem of maximizing the supremum norm of the gradient of the torsion function over planar convex domains with fixed measure (or perimeter). We prove that an optimal shape exists, its boundary possesses $C^1$ regularity, and it features at least one straight segment. The proofs leverage probabilistic methods along with a novel formulation of the boundary Harnack principle for the torsion function."
+      ],
+      "joint": "Joint work with Krzysztof Burdzy (University of Washington) and Phanuel Mariano (Union College).",
+      "references": null
+    },
+    {
+      "id": "giacomini",
+      "name": "Alessandro Giacomini",
+      "affiliation": "Università di Brescia, Italy",
+      "email": "alessandro.giacomini@unibs.it",
+      "title": "Periodic homogenization in scalar Hencky plasticity",
+      "abstract": [
+        "In this talk I will deal with periodic homogenization for a two-phase elasto-plastic material in the framework of $\\Gamma$-convergence under two-scale convergence. The elasto-plastic character of the homogenized problem is unclear, and will be discussed by resorting to a one field description of the associated energy. A positive answer will be given in one dimension."
+      ],
+      "joint": "Joint work with G. Francfort.",
+      "references": null
+    },
+    {
+      "id": "lucardesi",
+      "name": "Ilaria Lucardesi",
+      "affiliation": "Università di Pisa, Italy",
+      "email": "ilaria.lucardesi@unipi.it",
+      "title": "On the shape optimization of the torsional rigidity under thickness constraint among triangles",
+      "abstract": [
+        "In this talk I will present some recent results about the optimization, both minimization and maximization, of a shape functional which depends on the torsional rigidity and the thickness, in the class of triangles. Besides the detection of optimal triangles, the study allows to obtain new geometric estimates on the torsional rigidity for triangles."
+      ],
+      "joint": "Joint work with Davide Zucco (Università di Torino).",
+      "references": null
+    },
+    {
+      "id": "nitsch",
+      "name": "Carlo Nitsch",
+      "affiliation": "Università di Napoli “Federico II”, Italy",
+      "email": "c.nitsch@unina.it",
+      "title": "Improving a Spectral Inequality by Payne",
+      "abstract": [
+        "A celebrated inequality by Payne relates the first eigenvalue of the Dirichlet Laplacian to the first eigenvalue of the buckling problem. Motivated by the goal of establishing a quantitative version of this inequality, we show that Payne's original estimate — which is not sharp — can in fact be improved. Our result provides a refined spectral bound and opens the way to further investigations into quantitative enhancements of classical inequalities in spectral theory."
+      ],
+      "joint": null,
+      "references": null
+    },
+    {
+      "id": "paoli",
+      "name": "Gloria Paoli",
+      "affiliation": "Università degli Studi di Napoli \"Federico II\", Italy",
+      "email": "gloria.paoli@unina.it",
+      "title": null,
+      "abstract": null,
+      "joint": null,
+      "references": null
+    },
+    {
+      "id": "porfido",
+      "name": "Marianna Porfido",
+      "affiliation": "TU Bergakademie Freiberg, Germany",
+      "email": "Marianna.Porfido@math.tu-freiberg.de",
+      "title": "The Free Lunch Theorem of homogenisation",
+      "abstract": [
+        "In this talk, we revisit the classical elliptic homogenisation theory for local coefficients, i.e., $L_\\infty$-multiplication operators (H-convergence as envisioned by Murat and Tartar in the 1970's). Then, we compare it with an abstract operator-theory approach that allows for nonlocal coefficients, i.e., general bounded operators (nonlocal H-convergence introduced in [1]). With these concepts in hand, we show that H-convergence for multiplication type operators always implies nonlocal H-convergence. As a consequence, H-convergence for multiplication operators in divergence form problems will always imply H-type convergence for a different variational problem for free."
+      ],
+      "joint": "Joint work with Andreas Buchinger and Marcus Waurick.",
+      "references": [
+        "[1] M. Waurick, Nonlocal H-Convergence, Calc. Var. Partial Differential Equations 57(6) (2018).",
+        "[2] A. Buchinger, M. Porfido, M. Waurick, The Free Lunch Theorem of Homogenisation, preprint (2026), doi: https://arxiv.org/abs/2606.04498"
+      ]
+    },
+    {
+      "id": "riva",
+      "name": "Filippo Riva",
+      "affiliation": "Charles University, Prague, Czech Republic",
+      "email": "filippo.riva@matfyz.cuni.cz",
+      "title": "A free boundary approach to quasistatic debonding",
+      "abstract": [
+        "Debonding models describe the evolution of an adhesive elastic membrane peeled away from a planar rigid substrate. When the process is sufficiently slow, inertial and viscous effects can be neglected, leading to a quasistatic setting. In this framework, debonding can be formulated as a variational evolution of sets. In the talk, I will present how to prove existence of so-called energetic solutions for this formulation — based on global minimizers of a suitable functional together with an energy balance — by exploiting an equivalent rewriting of the model in terms of the celebrated one-phase Bernoulli free boundary problem."
+      ],
+      "joint": "Joint work with E. Maggiorelli and E. Tolotti.",
+      "references": null
+    }
+  ]
+}

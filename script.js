@@ -113,76 +113,324 @@ window.addEventListener('scroll', updateActiveLink);
 if (currentActiveLink) { currentActiveLink.classList.add('active'); positionCube(currentActiveLink); }
 if (cube) cube.className = 'cube home';
 
-// --- Schedule day tabs ---
-const dayTabs = document.querySelectorAll('.day-tab');
-const dayPanels = document.querySelectorAll('.timeline');
+// --- Schedule & speakers, built from program.json ---
+// To edit the schedule or the speaker list/abstracts, edit program.json — no HTML/JS changes needed.
 
-function selectDay(tab) {
-    dayTabs.forEach(t => {
-        const selected = t === tab;
-        t.classList.toggle('active', selected);
-        t.setAttribute('aria-selected', selected ? 'true' : 'false');
-        t.setAttribute('tabindex', selected ? '0' : '-1');
-    });
-    dayPanels.forEach(p => { p.hidden = p.id !== tab.getAttribute('aria-controls'); });
+const SCHEDULE_ICONS = {
+    registration: '<path d="M12.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10.4 12.6a2 2 0 1 1 3 3L8 21l-4 1 1-4Z"/>',
+    coffee: '<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/>',
+    lunch: '<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/>'
+};
+
+function makeScheduleIcon(name) {
+    const inner = SCHEDULE_ICONS[name];
+    if (!inner) return null;
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'schedule-icon');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '1.8');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.innerHTML = inner; // fixed, hardcoded shapes only — never from program.json
+    return svg;
 }
 
-dayTabs.forEach((tab, i) => {
-    tab.addEventListener('click', () => selectDay(tab));
-    tab.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+// Auto-links bare URLs found inside plain-text reference strings.
+function appendLinkedText(container, text) {
+    const urlRegex = /(https?:\/\/\S+)/g;
+    let lastIndex = 0;
+    let match;
+    while ((match = urlRegex.exec(text)) !== null) {
+        if (match.index > lastIndex) container.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+        const a = document.createElement('a');
+        a.href = match[0];
+        a.textContent = match[0];
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        container.appendChild(a);
+        lastIndex = match.index + match[0].length;
+    }
+    if (lastIndex < text.length) container.appendChild(document.createTextNode(text.slice(lastIndex)));
+}
+
+function createTimelineItem(entry, speakerMap) {
+    const li = document.createElement('li');
+    li.className = 'timeline-item' + (entry.muted ? ' break' : '');
+
+    const time = document.createElement('span');
+    time.className = 'time';
+    time.textContent = entry.time;
+    li.appendChild(time);
+
+    if (entry.speaker) {
+        const speaker = speakerMap[entry.speaker];
+        const a = document.createElement('a');
+        a.className = 'event talk';
+        a.href = '#abstract-' + entry.speaker;
+
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'talk-title';
+        titleSpan.textContent = (speaker && speaker.title) || 'Title to be announced';
+
+        const speakerSpan = document.createElement('span');
+        speakerSpan.className = 'talk-speaker';
+        speakerSpan.textContent = speaker ? speaker.name : entry.speaker;
+
+        a.appendChild(titleSpan);
+        a.appendChild(speakerSpan);
+        li.appendChild(a);
+    } else {
+        const event = document.createElement('span');
+        event.className = 'event' + (entry.icon ? ' event-icon' : '');
+        if (entry.icon) {
+            const icon = makeScheduleIcon(entry.icon);
+            if (icon) event.appendChild(icon);
+        }
+        event.appendChild(document.createTextNode(entry.label));
+        li.appendChild(event);
+    }
+    return li;
+}
+
+function renderSchedule(days, speakerMap) {
+    const tabsContainer = document.getElementById('day-tabs');
+    const timelinesContainer = document.getElementById('timelines');
+    if (!tabsContainer || !timelinesContainer) return;
+
+    days.forEach((day, i) => {
+        const tabId = 'tab-' + day.id;
+
+        const tab = document.createElement('button');
+        tab.type = 'button';
+        tab.className = 'day-tab' + (i === 0 ? ' active' : '');
+        tab.id = tabId;
+        tab.setAttribute('role', 'tab');
+        tab.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+        tab.setAttribute('aria-controls', day.id);
+        tab.tabIndex = i === 0 ? 0 : -1;
+        tab.textContent = day.label;
+        tabsContainer.appendChild(tab);
+
+        const ol = document.createElement('ol');
+        ol.className = 'timeline';
+        ol.id = day.id;
+        ol.setAttribute('role', 'tabpanel');
+        ol.setAttribute('aria-labelledby', tabId);
+        if (i !== 0) ol.hidden = true;
+        day.schedule.forEach(entry => ol.appendChild(createTimelineItem(entry, speakerMap)));
+        timelinesContainer.appendChild(ol);
+    });
+}
+
+function createAbstractPanel(speaker) {
+    const div = document.createElement('div');
+    div.className = 'abstract-panel';
+    div.id = 'abstract-' + speaker.id;
+    div.setAttribute('role', 'region');
+    div.setAttribute('aria-labelledby', 'toggle-' + speaker.id);
+    div.hidden = true;
+
+    if (speaker.abstract && speaker.abstract.length) {
+        speaker.abstract.forEach(paragraph => {
+            const p = document.createElement('p');
+            p.textContent = paragraph;
+            div.appendChild(p);
+        });
+    } else {
+        const p = document.createElement('p');
+        p.className = 'joint';
+        p.textContent = 'Abstract to be announced.';
+        div.appendChild(p);
+    }
+
+    if (speaker.joint) {
+        const p = document.createElement('p');
+        p.className = 'joint';
+        p.textContent = speaker.joint;
+        div.appendChild(p);
+    }
+
+    if (speaker.references && speaker.references.length) {
+        const p = document.createElement('p');
+        p.className = 'references';
+        const strong = document.createElement('strong');
+        strong.textContent = 'References';
+        p.appendChild(strong);
+        p.appendChild(document.createElement('br'));
+        speaker.references.forEach((ref, idx) => {
+            appendLinkedText(p, ref);
+            if (idx < speaker.references.length - 1) p.appendChild(document.createElement('br'));
+        });
+        div.appendChild(p);
+    }
+
+    if (speaker.email) {
+        const p = document.createElement('p');
+        p.className = 'contact';
+        const a = document.createElement('a');
+        a.href = 'mailto:' + speaker.email;
+        a.textContent = speaker.email;
+        p.appendChild(a);
+        div.appendChild(p);
+    }
+
+    return div;
+}
+
+function createSpeakerItem(speaker, scheduleLabel) {
+    const li = document.createElement('li');
+    li.className = 'speaker-item';
+
+    const h4 = document.createElement('h4');
+    h4.className = 'speaker-heading';
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'speaker-toggle';
+    button.id = 'toggle-' + speaker.id;
+    button.setAttribute('aria-expanded', 'false');
+    button.setAttribute('aria-controls', 'abstract-' + speaker.id);
+
+    const titleSpan = document.createElement('span');
+    titleSpan.className = 'speaker-title';
+    titleSpan.textContent = speaker.title || 'Title to be announced';
+
+    const metaSpan = document.createElement('span');
+    metaSpan.className = 'speaker-meta';
+    const metaParts = [speaker.name, speaker.affiliation];
+    if (scheduleLabel) metaParts.push(scheduleLabel);
+    metaSpan.textContent = metaParts.filter(Boolean).join(' · ');
+
+    const chevron = document.createElement('span');
+    chevron.className = 'chevron';
+    chevron.setAttribute('aria-hidden', 'true');
+
+    button.appendChild(titleSpan);
+    button.appendChild(metaSpan);
+    button.appendChild(chevron);
+    h4.appendChild(button);
+    li.appendChild(h4);
+    li.appendChild(createAbstractPanel(speaker));
+    return li;
+}
+
+function renderAccordion(speakers, scheduleLabels) {
+    const accordion = document.getElementById('accordion-speakers');
+    if (!accordion) return;
+    speakers.forEach(speaker => {
+        accordion.appendChild(createSpeakerItem(speaker, scheduleLabels[speaker.id]));
+    });
+}
+
+function buildScheduleLabels(days) {
+    const labels = {};
+    days.forEach(day => {
+        day.schedule.forEach(entry => {
+            if (entry.speaker) labels[entry.speaker] = day.label + ', ' + entry.time;
+        });
+    });
+    return labels;
+}
+
+// --- Wire up day tabs, accordion toggles and schedule<->abstract deep links ---
+function wireScheduleInteractions() {
+    const dayTabs = document.querySelectorAll('.day-tab');
+    const dayPanels = document.querySelectorAll('.timeline');
+
+    function selectDay(tab) {
+        dayTabs.forEach(t => {
+            const selected = t === tab;
+            t.classList.toggle('active', selected);
+            t.setAttribute('aria-selected', selected ? 'true' : 'false');
+            t.setAttribute('tabindex', selected ? '0' : '-1');
+        });
+        dayPanels.forEach(p => { p.hidden = p.id !== tab.getAttribute('aria-controls'); });
+    }
+
+    dayTabs.forEach((tab, i) => {
+        tab.addEventListener('click', () => selectDay(tab));
+        tab.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const next = dayTabs[(i + (e.key === 'ArrowRight' ? 1 : dayTabs.length - 1)) % dayTabs.length];
+                next.focus();
+                selectDay(next);
+            }
+        });
+    });
+
+    function openAbstract(id) {
+        const panel = document.getElementById(id);
+        const toggle = document.getElementById('toggle-' + id.replace('abstract-', ''));
+        if (!panel || !toggle) return;
+        panel.hidden = false;
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.closest('.speaker-item').classList.add('open');
+    }
+
+    document.querySelectorAll('.speaker-toggle').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            const panel = document.getElementById(toggle.getAttribute('aria-controls'));
+            if (!panel) return;
+            const expanded = toggle.getAttribute('aria-expanded') === 'true';
+            panel.hidden = expanded;
+            toggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+            toggle.closest('.speaker-item').classList.toggle('open', !expanded);
+        });
+    });
+
+    document.querySelectorAll('a.talk').forEach(talkLink => {
+        talkLink.addEventListener('click', (e) => {
             e.preventDefault();
-            const next = dayTabs[(i + (e.key === 'ArrowRight' ? 1 : dayTabs.length - 1)) % dayTabs.length];
-            next.focus();
-            selectDay(next);
+            const id = talkLink.getAttribute('href').substring(1);
+            openAbstract(id);
+            const target = document.getElementById(id);
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+
+    if (location.hash && location.hash.startsWith('#abstract-')) {
+        openAbstract(location.hash.substring(1));
+    }
+
+    if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false }
+            ],
+            throwOnError: false
+        });
+    }
+}
+
+fetch('program.json')
+    .then(response => {
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return response.json();
+    })
+    .then(program => {
+        const speakerMap = {};
+        program.speakers.forEach(speaker => { speakerMap[speaker.id] = speaker; });
+        const scheduleLabels = buildScheduleLabels(program.days);
+
+        renderSchedule(program.days, speakerMap);
+        renderAccordion(program.speakers, scheduleLabels);
+        wireScheduleInteractions();
+    })
+    .catch(err => {
+        console.error('Failed to load program.json', err);
+        const fallback = 'Unable to load the schedule right now. Please refresh the page.';
+        const timelines = document.getElementById('timelines');
+        const accordion = document.getElementById('accordion-speakers');
+        if (timelines) timelines.textContent = fallback;
+        if (accordion) {
+            const li = document.createElement('li');
+            li.textContent = fallback;
+            accordion.appendChild(li);
         }
     });
-});
-
-// --- Speaker abstract accordion ---
-function openAbstract(id) {
-    const panel = document.getElementById(id);
-    const toggle = document.getElementById('toggle-' + id.replace('abstract-', ''));
-    if (!panel || !toggle) return;
-    panel.hidden = false;
-    toggle.setAttribute('aria-expanded', 'true');
-    toggle.closest('.speaker-item').classList.add('open');
-}
-
-document.querySelectorAll('.speaker-toggle').forEach(toggle => {
-    toggle.addEventListener('click', () => {
-        const panel = document.getElementById(toggle.getAttribute('aria-controls'));
-        if (!panel) return;
-        const expanded = toggle.getAttribute('aria-expanded') === 'true';
-        panel.hidden = expanded;
-        toggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-        toggle.closest('.speaker-item').classList.toggle('open', !expanded);
-    });
-});
-
-// --- Jump from schedule to the matching abstract, opening it ---
-document.querySelectorAll('a.talk').forEach(talkLink => {
-    talkLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        const id = talkLink.getAttribute('href').substring(1);
-        openAbstract(id);
-        const target = document.getElementById(id);
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-});
-
-// Open the right abstract if the page is loaded/shared with a direct #abstract-xxx link
-if (location.hash && location.hash.startsWith('#abstract-')) {
-    openAbstract(location.hash.substring(1));
-}
-
-// --- Render math in abstracts (KaTeX) ---
-if (window.renderMathInElement) {
-    renderMathInElement(document.body, {
-        delimiters: [
-            { left: '$$', right: '$$', display: true },
-            { left: '$', right: '$', display: false }
-        ],
-        throwOnError: false
-    });
-}
