@@ -185,9 +185,9 @@
       "name": "Gloria Paoli",
       "affiliation": "Università degli Studi di Napoli \"Federico II\", Italy",
       "email": "gloria.paoli@unina.it",
-      "title": null,
-      "abstract": null,
-      "joint": null,
+      "title": "A reverse Faber–Krahn inequality for the Robin Laplacian with negative boundary parameter: small coupling in all dimensions",
+      "abstract": "We establish Bareket’s conjecture from 1977 for convex domains in all dimensions in the regime of weak boundary coupling. In other words, we consider the Laplace operator, subject to negative boundary conditions, and show that the ball maximises the first eigenvalue among all bounded convex domains of fixed volume, provided that the boundary parameter is sufficiently close to zero. The smallness depends on the volume and dimension only. The proof relies on a comparison with spherical shells with combined Neumann–Robin boundary conditions obtained via the method of parallel coordinates, which we manage to extend to all dimensions, and on a careful analysis of the corresponding radial problem.",
+      "joint": "Joint work with Nunzia Gavitone and David Krejcirık",
       "references": null
     },
     {
