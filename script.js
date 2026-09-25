@@ -221,7 +221,13 @@ function renderSchedule(days, speakerMap) {
         ol.setAttribute('role', 'tabpanel');
         ol.setAttribute('aria-labelledby', tabId);
         if (i !== 0) ol.hidden = true;
-        day.schedule.forEach(entry => ol.appendChild(createTimelineItem(entry, speakerMap)));
+        day.schedule.forEach(entry => {
+            try {
+                ol.appendChild(createTimelineItem(entry, speakerMap));
+            } catch (err) {
+                console.error('Skipping malformed schedule entry', entry, err);
+            }
+        });
         timelinesContainer.appendChild(ol);
     });
 }
@@ -234,8 +240,13 @@ function createAbstractPanel(speaker) {
     div.setAttribute('aria-labelledby', 'toggle-' + speaker.id);
     div.hidden = true;
 
-    if (speaker.abstract && speaker.abstract.length) {
-        speaker.abstract.forEach(paragraph => {
+    // Accept either an array of paragraphs or a single string (a common hand-edit slip).
+    const paragraphs = Array.isArray(speaker.abstract)
+        ? speaker.abstract
+        : (typeof speaker.abstract === 'string' && speaker.abstract ? [speaker.abstract] : null);
+
+    if (paragraphs && paragraphs.length) {
+        paragraphs.forEach(paragraph => {
             const p = document.createElement('p');
             p.textContent = paragraph;
             div.appendChild(p);
@@ -254,16 +265,20 @@ function createAbstractPanel(speaker) {
         div.appendChild(p);
     }
 
-    if (speaker.references && speaker.references.length) {
+    const references = Array.isArray(speaker.references)
+        ? speaker.references
+        : (typeof speaker.references === 'string' && speaker.references ? [speaker.references] : null);
+
+    if (references && references.length) {
         const p = document.createElement('p');
         p.className = 'references';
         const strong = document.createElement('strong');
         strong.textContent = 'References';
         p.appendChild(strong);
         p.appendChild(document.createElement('br'));
-        speaker.references.forEach((ref, idx) => {
+        references.forEach((ref, idx) => {
             appendLinkedText(p, ref);
-            if (idx < speaker.references.length - 1) p.appendChild(document.createElement('br'));
+            if (idx < references.length - 1) p.appendChild(document.createElement('br'));
         });
         div.appendChild(p);
     }
@@ -322,7 +337,11 @@ function renderAccordion(speakers, scheduleLabels) {
     const accordion = document.getElementById('accordion-speakers');
     if (!accordion) return;
     speakers.forEach(speaker => {
-        accordion.appendChild(createSpeakerItem(speaker, scheduleLabels[speaker.id]));
+        try {
+            accordion.appendChild(createSpeakerItem(speaker, scheduleLabels[speaker.id]));
+        } catch (err) {
+            console.error('Skipping malformed speaker entry', speaker, err);
+        }
     });
 }
 
