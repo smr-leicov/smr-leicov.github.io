@@ -132,7 +132,10 @@ def build_speaker_section(speaker, first):
     lines.append("\\end{center}")
     lines.append("\\medskip")
 
+    # Accept either a list of paragraphs or a single string (a common hand-edit slip).
     abstract = speaker.get("abstract")
+    if isinstance(abstract, str):
+        abstract = [abstract]
     if abstract:
         lines.append("\n\n".join(escape_tex(p) for p in abstract))
     else:
@@ -144,6 +147,8 @@ def build_speaker_section(speaker, first):
         lines.append(escape_tex(speaker["joint"]))
 
     references = speaker.get("references")
+    if isinstance(references, str):
+        references = [references]
     if references:
         lines.append("")
         lines.append("\\medskip")
