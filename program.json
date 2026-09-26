@@ -8,22 +8,22 @@
       "schedule": [
         { "time": "14:00", "label": "Registration", "icon": "registration" },
         { "time": "14:30", "speaker": "angiuli" },
-        { "time": "15:15", "speaker": "porfido" },
-        { "time": "16:00", "speaker": "caponi" }
+        { "time": "15:15", "speaker": "friedrich" },
+        { "time": "16:00", "speaker": "defilippis" }
       ]
     },
     {
       "id": "day-01-10",
       "label": "Thu 01 Oct",
       "schedule": [
-        { "time": "09:00", "speaker": "paoli" },
-        { "time": "09:45", "speaker": "defilippis" },
+        { "time": "09:00", "speaker": "caponi" },
+        { "time": "09:45", "speaker": "porfido" },
         { "time": "10:30", "label": "Coffee Break", "icon": "coffee", "muted": true },
         { "time": "11:00", "speaker": "riva" },
         { "time": "11:45", "speaker": "deluca" },
         { "time": "12:30", "label": "Lunch Break", "icon": "lunch", "muted": true },
         { "time": "14:00", "speaker": "bach" },
-        { "time": "14:45", "speaker": "friedrich" },
+        { "time": "14:45", "speaker": "paoli" },
         { "time": "15:30", "label": "Break", "icon": "clock", "muted": true },
         { "time": "16:00", "speaker": "lucardesi" },
         { "time": "16:45", "speaker": "nitsch" }
