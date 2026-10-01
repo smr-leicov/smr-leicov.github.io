@@ -24,6 +24,10 @@ jobs:
       - name: Sync gallery from Google Drive
         env:
           GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          # Optional: cap the number of photos kept (most recently modified
+          # first). Set a repo/org "variable" named GALLERY_MAX_PHOTOS to
+          # override the script's default (60).
+          GALLERY_MAX_PHOTOS: ${{ vars.GALLERY_MAX_PHOTOS }}
         run: python sync_gallery.py
 
       - name: Commit changes, if any

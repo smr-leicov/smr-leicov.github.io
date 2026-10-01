@@ -459,31 +459,44 @@ fetch('program.json')
 // the public Google Drive folder by .github/workflows/sync-gallery.yml —
 // do not edit them by hand.
 
+const GALLERY_PAGE_SIZE = 24;
+
 function renderGallery(photos) {
     const grid = document.getElementById('gallery-grid');
+    const loadMoreBtn = document.getElementById('gallery-load-more');
     if (!grid) return;
 
-    photos.forEach((photo, index) => {
-        if (!photo || !photo.id || !photo.thumb) return;
-        try {
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.className = 'gallery-item';
-            button.setAttribute('aria-label', 'Open photo' + (index + 1));
+    let shown = 0;
 
-            const img = document.createElement('img');
-            img.src = photo.thumb;
-            img.alt = '';
-            img.loading = 'lazy';
-            img.decoding = 'async';
+    function renderNextBatch() {
+        photos.slice(shown, shown + GALLERY_PAGE_SIZE).forEach((photo, i) => {
+            const index = shown + i;
+            if (!photo || !photo.id || !photo.thumb) return;
+            try {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'gallery-item';
+                button.setAttribute('aria-label', 'Open photo ' + (index + 1));
 
-            button.appendChild(img);
-            button.addEventListener('click', () => openLightbox(photos, index));
-            grid.appendChild(button);
-        } catch (err) {
-            console.error('Skipping malformed gallery photo', photo, err);
-        }
-    });
+                const img = document.createElement('img');
+                img.src = photo.thumb;
+                img.alt = '';
+                img.loading = 'lazy';
+                img.decoding = 'async';
+
+                button.appendChild(img);
+                button.addEventListener('click', () => openLightbox(photos, index));
+                grid.appendChild(button);
+            } catch (err) {
+                console.error('Skipping malformed gallery photo', photo, err);
+            }
+        });
+        shown = Math.min(shown + GALLERY_PAGE_SIZE, photos.length);
+        if (loadMoreBtn) loadMoreBtn.hidden = shown >= photos.length;
+    }
+
+    if (loadMoreBtn) loadMoreBtn.addEventListener('click', renderNextBatch);
+    renderNextBatch();
 }
 
 let lightboxPhotos = [];
