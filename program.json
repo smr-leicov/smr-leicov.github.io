@@ -170,12 +170,12 @@
     },
     {
       "id": "nitsch",
-      "name": "Carlo Nitsch",
-      "affiliation": "Università di Napoli “Federico II”, Italy",
-      "email": "c.nitsch@unina.it",
-      "title": "Improving a Spectral Inequality by Payne",
+      "name": "Vincenzo Amato",
+      "affiliation": "Scuola Superiore Meridionale",
+      "email": "v.amato@ssmeridionale.it",
+      "title": "If it twists like an annulus, it looks like an annulus",
       "abstract": [
-        "A celebrated inequality by Payne relates the first eigenvalue of the Dirichlet Laplacian to the first eigenvalue of the buckling problem. Motivated by the goal of establishing a quantitative version of this inequality, we show that Payne's original estimate — which is not sharp — can in fact be improved. Our result provides a refined spectral bound and opens the way to further investigations into quantitative enhancements of classical inequalities in spectral theory."
+        "Among planar domains with prescribed area and hole area, the annulus best resists torsion. We show that this optimality is stable: a domain with nearly optimal torsional rigidity is close to an annulus, and its holes are almost concentric discs. The key is tracking how asymmetry spreads through the level sets of the torsion function."
       ],
       "joint": null,
       "references": null
