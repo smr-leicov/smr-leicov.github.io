@@ -124,8 +124,16 @@
         <section id="gallery">
             <h2><div class="section-cube"><div></div><div></div><div></div><div></div><div></div><div></div></div>Gallery</h2>
             <p class="gallery-hint">Photos from the conference, shared by participants in a <a href="https://drive.google.com/drive/folders/15ttn2crlO-jjv7CpNuc-BOXyeHCu6DK8" target="_blank" rel="noopener noreferrer">public Google Drive folder</a>. Click a photo to see it full-size.</p>
-            <div class="gallery-grid" id="gallery-grid"></div>
-            <button type="button" class="gallery-load-more" id="gallery-load-more" hidden>Show more photos</button>
+            <div class="gallery-pager">
+                <button type="button" class="gallery-arrow gallery-prev" id="gallery-prev" aria-label="Previous photos" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 5 8 12 15 19"/></svg>
+                </button>
+                <div class="gallery-grid" id="gallery-grid"></div>
+                <button type="button" class="gallery-arrow gallery-next" id="gallery-next" aria-label="Next photos" hidden>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 5 16 12 9 19"/></svg>
+                </button>
+            </div>
+            <p class="gallery-page-indicator" id="gallery-page-indicator"></p>
         </section>
     </main>
     <footer role="contentinfo">

@@ -459,18 +459,25 @@ fetch('program.json')
 // the public Google Drive folder by .github/workflows/sync-gallery.yml —
 // do not edit them by hand.
 
-const GALLERY_PAGE_SIZE = 24;
+const GALLERY_PAGE_SIZE = 12;
 
 function renderGallery(photos) {
     const grid = document.getElementById('gallery-grid');
-    const loadMoreBtn = document.getElementById('gallery-load-more');
+    const prevBtn = document.getElementById('gallery-prev');
+    const nextBtn = document.getElementById('gallery-next');
+    const indicator = document.getElementById('gallery-page-indicator');
     if (!grid) return;
 
-    let shown = 0;
+    const pageCount = Math.max(1, Math.ceil(photos.length / GALLERY_PAGE_SIZE));
+    let page = 0;
 
-    function renderNextBatch() {
-        photos.slice(shown, shown + GALLERY_PAGE_SIZE).forEach((photo, i) => {
-            const index = shown + i;
+    function renderPage() {
+        grid.innerHTML = '';
+        const start = page * GALLERY_PAGE_SIZE;
+        const pagePhotos = photos.slice(start, start + GALLERY_PAGE_SIZE);
+
+        pagePhotos.forEach((photo, i) => {
+            const index = start + i;
             if (!photo || !photo.id || !photo.thumb) return;
             try {
                 const button = document.createElement('button');
@@ -491,12 +498,32 @@ function renderGallery(photos) {
                 console.error('Skipping malformed gallery photo', photo, err);
             }
         });
-        shown = Math.min(shown + GALLERY_PAGE_SIZE, photos.length);
-        if (loadMoreBtn) loadMoreBtn.hidden = shown >= photos.length;
+
+        // Pad the grid out to a fixed number of cells (including on a
+        // shorter last page) so paging never reflows the rest of the page —
+        // the user can flip through pages without losing their scroll spot.
+        for (let i = pagePhotos.length; i < GALLERY_PAGE_SIZE; i++) {
+            const filler = document.createElement('div');
+            filler.className = 'gallery-filler';
+            filler.setAttribute('aria-hidden', 'true');
+            grid.appendChild(filler);
+        }
+
+        if (prevBtn) {
+            prevBtn.disabled = page === 0;
+            prevBtn.hidden = pageCount <= 1;
+        }
+        if (nextBtn) {
+            nextBtn.disabled = page >= pageCount - 1;
+            nextBtn.hidden = pageCount <= 1;
+        }
+        if (indicator) indicator.textContent = pageCount > 1 ? `Page ${page + 1} of ${pageCount}` : '';
     }
 
-    if (loadMoreBtn) loadMoreBtn.addEventListener('click', renderNextBatch);
-    renderNextBatch();
+    if (prevBtn) prevBtn.addEventListener('click', () => { if (page > 0) { page--; renderPage(); } });
+    if (nextBtn) nextBtn.addEventListener('click', () => { if (page < pageCount - 1) { page++; renderPage(); } });
+
+    renderPage();
 }
 
 let lightboxPhotos = [];
