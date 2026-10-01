@@ -455,28 +455,25 @@ fetch('program.json')
     });
 
 // --- Photo gallery & lightbox, built from gallery.json ---
-// gallery.json is synced automatically from the public Google Drive folder
-// by .github/workflows/sync-gallery.yml — do not edit it by hand.
-
-function driveImageUrl(id, width) {
-    return `https://lh3.googleusercontent.com/d/${id}=w${width}`;
-}
+// gallery.json and the files under gallery/ are synced automatically from
+// the public Google Drive folder by .github/workflows/sync-gallery.yml —
+// do not edit them by hand.
 
 function renderGallery(photos) {
     const grid = document.getElementById('gallery-grid');
     if (!grid) return;
 
     photos.forEach((photo, index) => {
-        if (!photo || !photo.id) return;
+        if (!photo || !photo.id || !photo.thumb) return;
         try {
             const button = document.createElement('button');
             button.type = 'button';
             button.className = 'gallery-item';
-            button.setAttribute('aria-label', 'Open photo' + (photo.name ? ': ' + photo.name : ''));
+            button.setAttribute('aria-label', 'Open photo' + (index + 1));
 
             const img = document.createElement('img');
-            img.src = driveImageUrl(photo.id, 480);
-            img.alt = photo.name || '';
+            img.src = photo.thumb;
+            img.alt = '';
             img.loading = 'lazy';
             img.decoding = 'async';
 
@@ -498,10 +495,8 @@ function showLightboxPhoto(index) {
     if (!photo) return;
     lightboxIndex = index;
     const image = document.getElementById('lightbox-image');
-    const caption = document.getElementById('lightbox-caption');
-    image.src = driveImageUrl(photo.id, 1600);
-    image.alt = photo.name || '';
-    caption.textContent = photo.name || '';
+    image.src = photo.full || photo.thumb;
+    image.alt = '';
 }
 
 function openLightbox(photos, index) {

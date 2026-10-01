@@ -905,13 +905,6 @@ a.event.talk:hover .talk-title { color: #95ccdd; }
   box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
 
-.lightbox-caption {
-  margin: 1rem 0 0 0;
-  color: #d7eef4;
-  font-size: 0.9rem;
-  text-align: center;
-}
-
 .lightbox-close,
 .lightbox-nav {
   position: absolute;
