@@ -18,7 +18,10 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Sync gallery.json from Google Drive
+      - name: Install dependencies
+        run: pip install pillow
+
+      - name: Sync gallery from Google Drive
         env:
           GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
         run: python sync_gallery.py
@@ -27,6 +30,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add gallery.json
+          git add gallery.json gallery/
           git diff --staged --quiet || git commit -m "Sync photo gallery from Google Drive [skip ci]"
           git push
