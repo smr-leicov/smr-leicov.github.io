@@ -453,3 +453,114 @@ fetch('program.json')
             accordion.appendChild(li);
         }
     });
+
+// --- Photo gallery & lightbox, built from gallery.json ---
+// gallery.json is synced automatically from the public Google Drive folder
+// by .github/workflows/sync-gallery.yml — do not edit it by hand.
+
+function driveImageUrl(id, width) {
+    return `https://lh3.googleusercontent.com/d/${id}=w${width}`;
+}
+
+function renderGallery(photos) {
+    const grid = document.getElementById('gallery-grid');
+    if (!grid) return;
+
+    photos.forEach((photo, index) => {
+        if (!photo || !photo.id) return;
+        try {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'gallery-item';
+            button.setAttribute('aria-label', 'Open photo' + (photo.name ? ': ' + photo.name : ''));
+
+            const img = document.createElement('img');
+            img.src = driveImageUrl(photo.id, 480);
+            img.alt = photo.name || '';
+            img.loading = 'lazy';
+            img.decoding = 'async';
+
+            button.appendChild(img);
+            button.addEventListener('click', () => openLightbox(photos, index));
+            grid.appendChild(button);
+        } catch (err) {
+            console.error('Skipping malformed gallery photo', photo, err);
+        }
+    });
+}
+
+let lightboxPhotos = [];
+let lightboxIndex = 0;
+let lightboxReturnFocus = null;
+
+function showLightboxPhoto(index) {
+    const photo = lightboxPhotos[index];
+    if (!photo) return;
+    lightboxIndex = index;
+    const image = document.getElementById('lightbox-image');
+    const caption = document.getElementById('lightbox-caption');
+    image.src = driveImageUrl(photo.id, 1600);
+    image.alt = photo.name || '';
+    caption.textContent = photo.name || '';
+}
+
+function openLightbox(photos, index) {
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox) return;
+    lightboxPhotos = photos;
+    lightboxReturnFocus = document.activeElement;
+    showLightboxPhoto(index);
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lightbox-close').focus();
+}
+
+function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox || lightbox.hidden) return;
+    lightbox.hidden = true;
+    document.body.style.overflow = '';
+    if (lightboxReturnFocus) lightboxReturnFocus.focus();
+}
+
+function showNextPhoto(delta) {
+    if (!lightboxPhotos.length) return;
+    const next = (lightboxIndex + delta + lightboxPhotos.length) % lightboxPhotos.length;
+    showLightboxPhoto(next);
+}
+
+function wireLightboxControls() {
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox) return;
+
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+    document.getElementById('lightbox-prev').addEventListener('click', () => showNextPhoto(-1));
+    document.getElementById('lightbox-next').addEventListener('click', () => showNextPhoto(1));
+
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (lightbox.hidden) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') showNextPhoto(-1);
+        if (e.key === 'ArrowRight') showNextPhoto(1);
+    });
+}
+
+wireLightboxControls();
+
+fetch('gallery.json')
+    .then(response => {
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return response.json();
+    })
+    .then(gallery => {
+        renderGallery(gallery.photos || []);
+    })
+    .catch(err => {
+        console.error('Failed to load gallery.json', err);
+        const grid = document.getElementById('gallery-grid');
+        if (grid) grid.textContent = 'Unable to load the gallery right now. Please refresh the page.';
+    });

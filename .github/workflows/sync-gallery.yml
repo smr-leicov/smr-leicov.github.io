@@ -1,0 +1,32 @@
+name: Sync photo gallery
+
+on:
+  schedule:
+    - cron: '0 4 * * *' # daily at 04:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Sync gallery.json from Google Drive
+        env:
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+        run: python sync_gallery.py
+
+      - name: Commit changes, if any
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add gallery.json
+          git diff --staged --quiet || git commit -m "Sync photo gallery from Google Drive [skip ci]"
+          git push
