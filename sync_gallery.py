@@ -43,7 +43,15 @@ DRIVE_API_URL = "https://www.googleapis.com/drive/v3/files"
 
 THUMB_MAX_DIM = 480
 FULL_MAX_DIM = 1600
-JPEG_QUALITY = 82
+IMAGE_QUALITY = 82
+IMAGE_FORMAT = "WEBP"
+IMAGE_EXT = "webp"
+
+# Hard cap on how many photos the gallery ever shows/stores, so the site
+# (and the repo) can't grow without bound as people keep adding photos to
+# the Drive folder. Keeps the most recently modified ones. Override with
+# the GALLERY_MAX_PHOTOS env var if needed.
+DEFAULT_MAX_PHOTOS = 60
 
 
 def list_images(folder_id, api_key):
@@ -55,7 +63,7 @@ def list_images(folder_id, api_key):
             "q": query,
             "key": api_key,
             "fields": "nextPageToken, files(id,name,modifiedTime)",
-            "orderBy": "name",
+            "orderBy": "modifiedTime desc",
             "pageSize": 1000,
         }
         if page_token:
@@ -90,7 +98,7 @@ def save_resized(raw_bytes, path, max_dim):
     img = img.convert("RGB")
     img.thumbnail((max_dim, max_dim), Image.LANCZOS)
     path.parent.mkdir(parents=True, exist_ok=True)
-    img.save(path, "JPEG", quality=JPEG_QUALITY, optimize=True)
+    img.save(path, IMAGE_FORMAT, quality=IMAGE_QUALITY, method=6)
     return img.size
 
 
@@ -110,7 +118,13 @@ def main():
     if not folder_id:
         raise SystemExit("No folder id: set GALLERY_FOLDER_ID, pass it as an argument, or set 'folderId' in gallery.json")
 
-    files = list_images(folder_id, api_key)
+    max_photos = int(os.environ.get("GALLERY_MAX_PHOTOS") or DEFAULT_MAX_PHOTOS)
+
+    # list_images already orders by modifiedTime desc, so this keeps the
+    # most recently modified photos and drops the rest — the gallery (and
+    # the repo) never grows past max_photos no matter how many photos pile
+    # up in the Drive folder.
+    files = list_images(folder_id, api_key)[:max_photos]
     photos = []
     seen_ids = set()
 
@@ -119,8 +133,8 @@ def main():
         seen_ids.add(file_id)
         modified = f.get("modifiedTime")
         prev = existing_photos.get(file_id)
-        thumb_path = THUMBS_DIR / f"{file_id}.jpg"
-        full_path = FULL_DIR / f"{file_id}.jpg"
+        thumb_path = THUMBS_DIR / f"{file_id}.{IMAGE_EXT}"
+        full_path = FULL_DIR / f"{file_id}.{IMAGE_EXT}"
 
         needs_download = (
             not prev
@@ -143,14 +157,21 @@ def main():
             "modifiedTime": modified,
             "width": width,
             "height": height,
-            "thumb": f"gallery/thumbs/{file_id}.jpg",
-            "full": f"gallery/full/{file_id}.jpg",
+            "thumb": f"gallery/thumbs/{file_id}.{IMAGE_EXT}",
+            "full": f"gallery/full/{file_id}.{IMAGE_EXT}",
         })
 
-    # Clean up files for photos that have been removed from the Drive folder.
+    # Clean up files for photos that are no longer kept: either removed from
+    # the Drive folder, or pushed past max_photos by newer uploads. Matches
+    # on the id regardless of extension, so switching IMAGE_FORMAT also
+    # cleans up the previous format's leftover files.
     for old_id in set(existing_photos) - seen_ids:
-        (THUMBS_DIR / f"{old_id}.jpg").unlink(missing_ok=True)
-        (FULL_DIR / f"{old_id}.jpg").unlink(missing_ok=True)
+        for stray in list(THUMBS_DIR.glob(f"{old_id}.*")) + list(FULL_DIR.glob(f"{old_id}.*")):
+            stray.unlink(missing_ok=True)
+    for kept_id in seen_ids:
+        for stray in list(THUMBS_DIR.glob(f"{kept_id}.*")) + list(FULL_DIR.glob(f"{kept_id}.*")):
+            if stray.suffix != f".{IMAGE_EXT}":
+                stray.unlink(missing_ok=True)
 
     data = {
         "_readme": existing.get("_readme") or (
