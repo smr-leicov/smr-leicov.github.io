@@ -840,6 +840,38 @@ a.event.talk:hover .talk-title { color: #95ccdd; }
 .abstract-panel .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.3rem 0; }
 
 /* --- Gallery --- */
+/* Featured photo: the section text column is ~75ch wide, so on wide screens
+   let this one break out of it (centered) to be clearly bigger than the grid. */
+.gallery-featured-slot { margin-top: 1.4rem; }
+
+.gallery-featured {
+  display: block;
+  position: relative;
+  width: min(1100px, calc(100vw - 3rem));
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0;
+  margin: 0 0 1.6rem;
+  border: 2px solid #67b6ce;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.03);
+  box-shadow: 0 0 0 6px rgba(103,182,206,0.15), 0 14px 40px rgba(0,0,0,0.45);
+  cursor: pointer;
+  transition: box-shadow 0.25s ease;
+}
+
+.gallery-featured:hover,
+.gallery-featured:focus-visible {
+  box-shadow: 0 0 0 6px rgba(103,182,206,0.35), 0 14px 40px rgba(0,0,0,0.55);
+}
+
+.gallery-featured img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .gallery-pager {
   display: flex;
   align-items: center;
@@ -989,6 +1021,10 @@ a.event.talk:hover .talk-title { color: #95ccdd; }
 .lightbox-prev { left: 1.2rem; }
 .lightbox-next { right: 1.2rem; }
 
+@media (max-width: 768px) {
+  .gallery-featured { width: 100%; left: 0; transform: none; border-radius: 12px; }
+}
+
 @media (max-width: 600px) {
   .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0.4rem; }
   .gallery-pager { gap: 0.3rem; }
@@ -1002,6 +1038,6 @@ a.event.talk:hover .talk-title { color: #95ccdd; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cube, .chevron, .day-tab, .speaker-toggle .speaker-title, .gallery-item { transition: none !important; }
+  .cube, .chevron, .day-tab, .speaker-toggle .speaker-title, .gallery-item, .gallery-featured { transition: none !important; }
 }
 

@@ -461,12 +461,38 @@ fetch('program.json')
 
 const GALLERY_PAGE_SIZE = 12;
 
-function renderGallery(photos) {
+function renderGallery(photos, featured) {
     const grid = document.getElementById('gallery-grid');
     const prevBtn = document.getElementById('gallery-prev');
     const nextBtn = document.getElementById('gallery-next');
     const indicator = document.getElementById('gallery-page-indicator');
+    const featuredSlot = document.getElementById('gallery-featured-slot');
     if (!grid) return;
+
+    // The lightbox cycles through everything, featured photo first.
+    const hasFeatured = !!(featured && featured.id && featured.full);
+    const lightboxList = hasFeatured ? [featured, ...photos] : photos;
+    const offset = hasFeatured ? 1 : 0;
+
+    if (hasFeatured && featuredSlot) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'gallery-featured';
+        button.setAttribute('aria-label', 'Open featured photo');
+
+        const img = document.createElement('img');
+        img.src = featured.full;
+        img.alt = 'Featured conference photo';
+        if (featured.width && featured.height) {
+            img.width = featured.width;
+            img.height = featured.height;
+        }
+        img.decoding = 'async';
+
+        button.appendChild(img);
+        button.addEventListener('click', () => openLightbox(lightboxList, 0));
+        featuredSlot.appendChild(button);
+    }
 
     const pageCount = Math.max(1, Math.ceil(photos.length / GALLERY_PAGE_SIZE));
     let page = 0;
@@ -483,7 +509,7 @@ function renderGallery(photos) {
                 const button = document.createElement('button');
                 button.type = 'button';
                 button.className = 'gallery-item';
-                button.setAttribute('aria-label', 'Open photo ' + (index + 1));
+                button.setAttribute('aria-label', 'Open photo ' + (offset + index + 1));
 
                 const img = document.createElement('img');
                 img.src = photo.thumb;
@@ -492,7 +518,7 @@ function renderGallery(photos) {
                 img.decoding = 'async';
 
                 button.appendChild(img);
-                button.addEventListener('click', () => openLightbox(photos, index));
+                button.addEventListener('click', () => openLightbox(lightboxList, offset + index));
                 grid.appendChild(button);
             } catch (err) {
                 console.error('Skipping malformed gallery photo', photo, err);
@@ -592,7 +618,7 @@ fetch('gallery.json')
         return response.json();
     })
     .then(gallery => {
-        renderGallery(gallery.photos || []);
+        renderGallery(gallery.photos || [], gallery.featured || null);
     })
     .catch(err => {
         console.error('Failed to load gallery.json', err);
