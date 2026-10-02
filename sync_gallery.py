@@ -53,6 +53,19 @@ IMAGE_EXT = "webp"
 # the GALLERY_MAX_PHOTOS env var if needed.
 DEFAULT_MAX_PHOTOS = 60
 
+# The one photo shown big at the top of the gallery, picked by filename
+# (case-insensitive, any image extension). It is always kept — it doesn't
+# count toward DEFAULT_MAX_PHOTOS and isn't repeated in the grid.
+FEATURED_STEM = "conference_foto"
+
+
+def split_featured(files):
+    """Return (featured_file_or_None, remaining_files). files is newest-first."""
+    for i, f in enumerate(files):
+        if Path(f.get("name", "")).stem.lower() == FEATURED_STEM:
+            return f, files[:i] + files[i + 1:]
+    return None, files
+
 
 def list_images(folder_id, api_key):
     files = []
@@ -109,6 +122,8 @@ def main():
 
     existing = json.loads(GALLERY_JSON.read_text(encoding="utf-8")) if GALLERY_JSON.exists() else {}
     existing_photos = {p["id"]: p for p in existing.get("photos", [])}
+    if existing.get("featured"):
+        existing_photos[existing["featured"]["id"]] = existing["featured"]
 
     folder_id = (
         os.environ.get("GALLERY_FOLDER_ID")
@@ -120,17 +135,15 @@ def main():
 
     max_photos = int(os.environ.get("GALLERY_MAX_PHOTOS") or DEFAULT_MAX_PHOTOS)
 
-    # list_images already orders by modifiedTime desc, so this keeps the
-    # most recently modified photos and drops the rest — the gallery (and
-    # the repo) never grows past max_photos no matter how many photos pile
-    # up in the Drive folder.
-    files = list_images(folder_id, api_key)[:max_photos]
-    photos = []
-    seen_ids = set()
+    # list_images already orders by modifiedTime desc. The featured photo is
+    # pulled out first (so it's always kept, however old), then the rest is
+    # trimmed to the most recently modified max_photos — the gallery (and the
+    # repo) never grows past that no matter how many photos pile up in Drive.
+    featured_file, rest = split_featured(list_images(folder_id, api_key))
+    files = rest[:max_photos]
 
-    for f in files:
+    def sync_one(f):
         file_id = f["id"]
-        seen_ids.add(file_id)
         modified = f.get("modifiedTime")
         prev = existing_photos.get(file_id)
         thumb_path = THUMBS_DIR / f"{file_id}.{IMAGE_EXT}"
@@ -151,7 +164,7 @@ def main():
         else:
             width, height = prev.get("width"), prev.get("height")
 
-        photos.append({
+        return {
             "id": file_id,
             "name": f.get("name", ""),
             "modifiedTime": modified,
@@ -159,7 +172,11 @@ def main():
             "height": height,
             "thumb": f"gallery/thumbs/{file_id}.{IMAGE_EXT}",
             "full": f"gallery/full/{file_id}.{IMAGE_EXT}",
-        })
+        }
+
+    featured = sync_one(featured_file) if featured_file else None
+    photos = [sync_one(f) for f in files]
+    seen_ids = {p["id"] for p in photos} | ({featured["id"]} if featured else set())
 
     # Clean up files for photos that are no longer kept: either removed from
     # the Drive folder, or pushed past max_photos by newer uploads. Matches
@@ -183,10 +200,11 @@ def main():
         ),
         "folderId": folder_id,
         "updatedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "featured": featured,
         "photos": photos,
     }
     GALLERY_JSON.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"Wrote {len(photos)} photo(s) to {GALLERY_JSON}")
+    print(f"Wrote {len(photos)} photo(s) + {'a featured photo' if featured else 'no featured photo'} to {GALLERY_JSON}")
 
 
 if __name__ == "__main__":
