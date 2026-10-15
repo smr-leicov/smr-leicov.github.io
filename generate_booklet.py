@@ -90,7 +90,7 @@ SMR:LEICOV is a series of three meetings to bring together young researchers and
 
 {\bf List of confirmed speakers (%(count)d)}
 
-\begin{enumerate}
+\begin{enumerate}\setlength{\itemsep}{1pt}
 %(speaker_list)s\end{enumerate}
 
 \vspace{0.2 cm}
@@ -105,13 +105,24 @@ SMR:LEICOV is a series of three meetings to bring together young researchers and
 """
 
 
-def build_speaker_list_item(speaker):
+def build_talk_slots(program):
+    """Map speaker id -> "Wed 30 Sep, 14:30", taken from the schedule in 'days'."""
+    slots = {}
+    for day in program.get("days", []):
+        for row in day.get("schedule", []):
+            if row.get("speaker"):
+                slots[row["speaker"]] = f"{day['label']}, {row['time']}"
+    return slots
+
+
+def build_speaker_list_item(speaker, slot=None):
     name = escape_tex(speaker["name"])
     affiliation = escape_tex(speaker["affiliation"])
-    return f"\t\\item {name}, {affiliation}\n"
+    when = f"\\newline\\textit{{{escape_tex(slot)}}}" if slot else ""
+    return f"\t\\item {name}, {affiliation}{when}\n"
 
 
-def build_speaker_section(speaker, first):
+def build_speaker_section(speaker, first, slot=None):
     title = escape_tex(speaker.get("title") or "Title to be announced")
     name = escape_tex(speaker["name"])
     affiliation = escape_tex(speaker["affiliation"])
@@ -127,7 +138,9 @@ def build_speaker_section(speaker, first):
     lines.append(f"\\textbf{{{name}}} \\\\")
     lines.append(f"\\textit{{{affiliation}}} \\\\")
     if email:
-        lines.append(f"\\url{{{email}}}")
+        lines.append(f"\\url{{{email}}}" + (" \\\\" if slot else ""))
+    if slot:
+        lines.append(f"\\textbf{{{escape_tex(slot)}}}")
     lines.append("\\")
     lines.append("\\end{center}")
     lines.append("\\medskip")
@@ -163,9 +176,10 @@ def build_speaker_section(speaker, first):
 
 def build_tex(program):
     speakers = program["speakers"]
-    speaker_list = "".join(build_speaker_list_item(s) for s in speakers)
+    slots = build_talk_slots(program)
+    speaker_list = "".join(build_speaker_list_item(s, slots.get(s["id"])) for s in speakers)
     body = PREAMBLE % {"count": len(speakers), "speaker_list": speaker_list}
-    sections = [build_speaker_section(s, i == 0) for i, s in enumerate(speakers)]
+    sections = [build_speaker_section(s, i == 0, slots.get(s["id"])) for i, s in enumerate(speakers)]
     body += "\n".join(sections)
     body += "\n\\end{document}\n"
     return body
